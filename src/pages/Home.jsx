@@ -15,6 +15,7 @@ export const Home = () => {
               <h1 className="text-2xl font-bold text-primary-600">CourseHub</h1>
             </div>
             <div className="flex items-center space-x-4">
+              {/* Auth-aware actions: show Dashboard when logged in, otherwise show Sign In / Get Started */}
               {isAuthenticated ? (
                 <>
                   <span className="text-gray-700">Welcome, {user.firstName}!</span>
@@ -57,6 +58,7 @@ export const Home = () => {
               Discover thousands of courses from expert instructors. Build new skills, advance your career, and achieve your learning goals with our comprehensive online education platform.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              {/* Primary CTA: browse all courses */}
               <Link
                 to="/courses"
                 className="bg-white text-primary-600 px-8 py-3 rounded-lg text-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center"
@@ -64,6 +66,7 @@ export const Home = () => {
                 Browse Courses
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
+              {/* Secondary CTA: encourage sign-up for new users */}
               {!isAuthenticated && (
                 <Link
                   to="/register"
@@ -89,6 +92,7 @@ export const Home = () => {
             </p>
           </div>
           
+          {/* Three key value propositions for learners */}
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -126,22 +130,23 @@ export const Home = () => {
       {/* Stats Section */}
       <div className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Social proof metrics to build trust */}
           <div className="grid md:grid-cols-4 gap-8 text-center">
             <div>
               <div className="text-4xl font-bold text-primary-600 mb-2">10,000+</div>
-              <div className="text-gray-600">Students</div>
+              <div className="text-gray-600">Students</div> {/* Total learners who joined */}
             </div>
             <div>
               <div className="text-4xl font-bold text-primary-600 mb-2">500+</div>
-              <div className="text-gray-600">Courses</div>
+              <div className="text-gray-600">Courses</div> {/* Published and discoverable */}
             </div>
             <div>
               <div className="text-4xl font-bold text-primary-600 mb-2">100+</div>
-              <div className="text-gray-600">Instructors</div>
+              <div className="text-gray-600">Instructors</div> {/* Active teaching community */}
             </div>
             <div>
               <div className="text-4xl font-bold text-primary-600 mb-2">95%</div>
-              <div className="text-gray-600">Satisfaction Rate</div>
+              <div className="text-gray-600">Satisfaction Rate</div> {/* From learner feedback */}
             </div>
           </div>
         </div>
@@ -156,6 +161,7 @@ export const Home = () => {
           <p className="text-xl text-primary-100 mb-8 max-w-2xl mx-auto">
             Join thousands of students who are already advancing their careers with our courses.
           </p>
+          {/* Gate CTA to signed-out users only */}
           {!isAuthenticated && (
             <Link
               to="/register"
@@ -171,6 +177,7 @@ export const Home = () => {
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Footer columns: brand, learn, teach, support */}
           <div className="grid md:grid-cols-4 gap-8">
             <div>
               <h3 className="text-lg font-semibold mb-4">CourseHub</h3>
@@ -203,7 +210,7 @@ export const Home = () => {
             </div>
           </div>
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 CourseHub. All rights reserved.</p>
+            <p>&copy; 2025 CourseHub. Created By Savvana Rahul⚡.</p>
           </div>
         </div>
       </footer>

@@ -131,10 +131,18 @@ export const CreateCourse = () => {
                   type="number"
                   step="0.01"
                   min="0"
+                  max="499"
                   placeholder="0.00"
-                  {...register('price', { valueAsNumber: true })}
+                  {...register('price', {
+                    valueAsNumber: true,
+                    min: { value: 0, message: 'Price cannot be negative' },
+                    max: { value: 499, message: 'Price cannot exceed 499' }
+                  })}
                 />
-                <p className="mt-1 text-sm text-gray-500">Set to 0 for a free course</p>
+                {errors.price && (
+                  <p className="mt-1 text-sm text-red-600">{errors.price.message}</p>
+                )}
+                <p className="mt-1 text-sm text-gray-500">Set to 0 for a free course. Maximum price is 499.</p>
               </div>
 
               <div>
