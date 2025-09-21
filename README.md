@@ -16,10 +16,6 @@ Use these credentials to test the application:
 - **Password**: `educator123`
 - **Role**: Educator (can create courses, manage students, grade assignments)
 
-### Admin Account
-- **Email**: `admin@a2.com`
-- **Password**: `admin123`
-- **Role**: Admin (full system access)
 
 ## 🚀 Features
 
