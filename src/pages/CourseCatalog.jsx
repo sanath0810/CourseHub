@@ -194,7 +194,7 @@ export const CourseCatalog = () => {
                           <img
                             src={course.thumbnail}
                             alt={course.title}
-                            className="w-full h-40 object-cover transition-transform duration-300 group-hover:scale-110 cursor-pointer"
+                            className="w-full h-36 object-cover transition-transform duration-300 group-hover:scale-110 cursor-pointer"
                             loading="lazy"
                             data-fallback-step="0"
                             onError={(e) => {
@@ -215,7 +215,7 @@ export const CourseCatalog = () => {
                             }}
                           />
                         ) : (
-                          <div className="w-full h-40 bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center transition-transform duration-300 group-hover:scale-110 cursor-pointer">
+                          <div className="w-full h-36 bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center transition-transform duration-300 group-hover:scale-110 cursor-pointer">
                             <BookOpen className="h-12 w-12 text-white" />
                           </div>
                         )}

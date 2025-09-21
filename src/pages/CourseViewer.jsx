@@ -347,15 +347,15 @@ export const CourseViewer = () => {
             </Card>
           </div>
           {/* Course Sidebar */}
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-3 ">
             <Card>
               <CardHeader>
                 <h3 className="text-lg font-semibold text-gray-900">Course Content</h3>
               </CardHeader>
               <CardContent className="p-0">
-                <div className="max-h-96 overflow-y-auto">
+                <div className="max-h-[90vh] overflow-y-auto">
                   {(modules).map((module, moduleIndex) => (
-                    <div key={module.id} className="border-b border-gray-200 last:border-b-0">
+                    <div key={module.id} className="border-b border-gray-200 last:border-b-0 w-full">
                       <button
                         type="button"
                         onClick={() => {
@@ -364,7 +364,7 @@ export const CourseViewer = () => {
                           setCurrentModule(moduleIndex);
                           setCurrentLesson(0);
                         }}
-                        className="w-full text-left p-4 bg-gray-50"
+                        className="w-full text-left p-4 mb-2 bg-gray-200 rounded-lg hover:bg-gray-300 "
                       >
                         <div className="flex items-center justify-between">
                           <div>
