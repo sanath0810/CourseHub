@@ -92,9 +92,9 @@ export const CourseCatalog = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex flex-col lg:flex-row gap-8">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
           {/* Filters Sidebar */}
-          <div className="lg:w-64 flex-shrink-0">
+          <div className="w-full lg:w-64 flex-shrink-0">
             <Card>
               <CardContent className="space-y-6">
                 <div>
@@ -271,11 +271,12 @@ export const CourseCatalog = () => {
                 {/* Pagination */}
                 {totalPages > 1 && (
                   <div className="mt-8 flex justify-center">
-                    <nav className="flex items-center space-x-2">
+                    <nav className="flex items-center gap-2 flex-wrap justify-center">
                       <Button
                         variant="outline"
                         onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                         disabled={currentPage === 1}
+                        className="min-w-[96px]"
                       >
                         Previous
                       </Button>
@@ -293,6 +294,7 @@ export const CourseCatalog = () => {
                         variant="outline"
                         onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                         disabled={currentPage === totalPages}
+                        className="min-w-[96px]"
                       >
                         Next
                       </Button>

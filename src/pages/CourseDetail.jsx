@@ -260,7 +260,7 @@ export const CourseDetail = () => {
 
           {/* Sidebar */}
           <div className="lg:col-span-1">
-            <Card className="sticky top-8">
+            <Card className="lg:sticky lg:top-8">
               <CardContent className="p-6">
                 <div className="text-center mb-6">
                   <div className="text-3xl font-bold text-gray-900 mb-2">

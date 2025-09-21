@@ -121,3 +121,28 @@ export const generateSlug = (text) => {
     .replace(/[\s_-]+/g, '-')
     .replace(/^-+|-+$/g, '');
 };
+
+// Pricing helpers
+// Generate a random price under a maximum with an optional minimum, rounded to .99 for consistency
+export const randomPriceUnder = (max = 499, min = 19.99) => {
+  const lo = Math.max(0, Math.min(min, max));
+  const hi = Math.max(lo, max);
+  const base = Math.random() * (hi - lo) + lo; // [lo, hi)
+  // Round down to nearest whole and add .99 to create typical price formatting
+  const dollars = Math.max(0, Math.floor(base));
+  return Math.min(hi, Math.max(lo, Number((dollars + 0.99).toFixed(2))));
+};
+
+export const formatTo99 = (price) => {
+  if (typeof price !== 'number' || isNaN(price)) return 0;
+  const dollars = Math.max(0, Math.floor(price));
+  return Number((dollars + 0.99).toFixed(2));
+};
+
+// If price exceeds the max, replace with a random value under max. Negative becomes 0.
+export const sanitizeCoursePrice = (price, max = 499) => {
+  if (typeof price !== 'number' || isNaN(price)) return 0;
+  if (price < 0) return 0;
+  if (price > max) return randomPriceUnder(max);
+  return Number(price.toFixed(2));
+};

@@ -28,20 +28,22 @@ export const CreateCourse = () => {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-4 sm:p-6">
       <div className="max-w-4xl mx-auto">
-        <div className="flex items-center mb-8">
-          <Button
-            variant="outline"
-            onClick={() => navigate('/instructor/courses')}
-            className="mr-4"
-          >
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Courses
-          </Button>
-          <div>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-start gap-3 sm:gap-4 mb-8">
+          <div className="order-2 sm:order-1">
             <h1 className="text-2xl font-bold text-gray-900">Create New Course</h1>
             <p className="text-gray-600 mt-1">Start building your course</p>
+          </div>
+          <div className="order-1 sm:order-2">
+            <Button
+              variant="outline"
+              onClick={() => navigate('/instructor/courses')}
+              className="w-full sm:w-auto"
+            >
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back to Courses
+            </Button>
           </div>
         </div>
 
@@ -131,10 +133,18 @@ export const CreateCourse = () => {
                   type="number"
                   step="0.01"
                   min="0"
+                  max="499"
                   placeholder="0.00"
-                  {...register('price', { valueAsNumber: true })}
+                  {...register('price', {
+                    valueAsNumber: true,
+                    min: { value: 0, message: 'Price cannot be negative' },
+                    max: { value: 499, message: 'Price cannot exceed 499' }
+                  })}
                 />
-                <p className="mt-1 text-sm text-gray-500">Set to 0 for a free course</p>
+                {errors.price && (
+                  <p className="mt-1 text-sm text-red-600">{errors.price.message}</p>
+                )}
+                <p className="mt-1 text-sm text-gray-500">Set to 0 for a free course. Maximum price is 499.</p>
               </div>
 
               <div>
@@ -151,15 +161,16 @@ export const CreateCourse = () => {
                 </div>
               </div>
 
-              <div className="flex justify-end space-x-4">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 sm:justify-end">
                 <Button
                   type="button"
                   variant="outline"
                   onClick={() => navigate('/instructor/courses')}
+                  className="w-full sm:w-auto"
                 >
                   Cancel
                 </Button>
-                <Button type="submit" loading={loading}>
+                <Button type="submit" loading={loading} className="w-full sm:w-auto">
                   Create Course
                 </Button>
               </div>
