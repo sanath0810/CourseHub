@@ -14,7 +14,7 @@ export const Home = () => {
             <div className="flex items-center">
               <h1 className="text-2xl font-bold text-primary-600">CourseHub</h1>
             </div>
-            <div className="flex items-center space-x-4">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-4">
               {/* Auth-aware actions: show Dashboard when logged in, otherwise show Sign In / Get Started */}
               {isAuthenticated ? (
                 <>
@@ -30,13 +30,13 @@ export const Home = () => {
                 <>
                   <Link
                     to="/login"
-                    className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                    className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium text-center"
                   >
                     Sign In
                   </Link>
                   <Link
                     to="/register"
-                    className="bg-primary-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-primary-700"
+                    className="bg-primary-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-primary-700 text-center"
                   >
                     Get Started
                   </Link>
@@ -61,7 +61,7 @@ export const Home = () => {
               {/* Primary CTA: browse all courses */}
               <Link
                 to="/courses"
-                className="bg-white text-primary-600 px-8 py-3 rounded-lg text-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center"
+                className="bg-white text-primary-600 px-8 py-3 rounded-lg text-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center w-full sm:w-auto justify-center"
               >
                 Browse Courses
                 <ArrowRight className="ml-2 h-5 w-5" />
@@ -70,7 +70,7 @@ export const Home = () => {
               {!isAuthenticated && (
                 <Link
                   to="/register"
-                  className="border-2 border-white text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-white hover:text-primary-600 transition-colors"
+                  className="border-2 border-white text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-white hover:text-primary-600 transition-colors w-full sm:w-auto text-center"
                 >
                   Start Learning Today
                 </Link>
