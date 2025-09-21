@@ -1,5 +1,5 @@
 // Mock data for the frontend-only demo
-import { generateCourses } from './videoPool';
+import { generateCourses, getCuratedThumbnail } from './videoPool';
 
 export const MOCK_COURSES = [
   {
@@ -1269,18 +1269,17 @@ MOCK_COURSES.push(
   ...generateCourses(7, 10, 25, 121)
 );
 
-// Fill missing thumbnails for all courses using Unsplash Source based on title/category
+// Fill missing thumbnails for all courses using curated thumbnails based on title/category (logos when possible)
 for (const course of MOCK_COURSES) {
   if (!course.thumbnail) {
-    const toKeywords = (s) => String(s || '')
-      .toLowerCase()
-      .replace(/&/g, ' and ')
-      .replace(/[^a-z0-9]+/g, ' ')
-      .trim()
-      .replace(/\s+/g, ',');
-    const titleKw = toKeywords(course.title);
-    const categoryKw = toKeywords(course.category);
-    course.thumbnail = `https://source.unsplash.com/featured/640x360/?${titleKw},${categoryKw}`;
+    course.thumbnail = getCuratedThumbnail(course.title, course.category, course.id);
+  }
+}
+
+// Enforce price cap: no course price should exceed 499
+for (const course of MOCK_COURSES) {
+  if (typeof course.price === 'number' && course.price > 499) {
+    course.price = 499;
   }
 }
 

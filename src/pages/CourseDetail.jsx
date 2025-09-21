@@ -190,7 +190,13 @@ export const CourseDetail = () => {
                 <img
                   src={course.thumbnail}
                   alt={course.title}
-                  className="w-full h-64 object-cover rounded-lg"
+                  className="w-full h-auto max-h-72 object-contain rounded-lg bg-white cursor-pointer"
+                  loading="lazy"
+                  onError={(e) => {
+                    if (e.currentTarget.dataset.fallbacked) return;
+                    e.currentTarget.dataset.fallbacked = '1';
+                    e.currentTarget.src = `https://loremflickr.com/640/360/education,learning?lock=${course.id}`;
+                  }}
                 />
               </div>
             )}

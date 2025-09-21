@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Search, Filter, Star, Clock, Users, BookOpen } from 'lucide-react';
 import { getCourses } from '../utils/mockData';
 import { Card, CardContent } from '../components/Card';
@@ -9,6 +9,7 @@ import { formatDate, getCourseLevelColor } from '../utils/helpers';
 import toast from 'react-hot-toast';
 
 export const CourseCatalog = () => {
+  const navigate = useNavigate();
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -183,16 +184,38 @@ export const CourseCatalog = () => {
               <>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {courses.map((course) => (
-                    <Card key={course.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+                    <Card
+                      key={course.id}
+                      className="overflow-hidden hover:shadow-lg transition-shadow group cursor-pointer"
+                      onClick={() => navigate(`/courses/${course.id}`)}
+                    >
                       <div className="relative">
                         {course.thumbnail ? (
                           <img
                             src={course.thumbnail}
                             alt={course.title}
-                            className="w-full h-48 object-cover"
+                            className="w-full h-40 object-cover transition-transform duration-300 group-hover:scale-110 cursor-pointer"
+                            loading="lazy"
+                            data-fallback-step="0"
+                            onError={(e) => {
+                              const el = e.currentTarget;
+                              const step = parseInt(el.dataset.fallbackStep || '0', 10);
+                              const kw = encodeURIComponent(`${course.title} ${course.category}`);
+                              if (step === 0) {
+                                el.src = `https://loremflickr.com/640/360/${kw}?lock=${course.id}`;
+                                el.dataset.fallbackStep = '1';
+                              } else if (step === 1) {
+                                el.src = `https://picsum.photos/seed/course-${course.id}/640/360`;
+                                el.dataset.fallbackStep = '2';
+                              } else if (step === 2) {
+                                const text = encodeURIComponent(course.title || 'Course');
+                                el.src = `https://placehold.co/640x360?text=${text}`;
+                                el.dataset.fallbackStep = '3';
+                              }
+                            }}
                           />
                         ) : (
-                          <div className="w-full h-48 bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center">
+                          <div className="w-full h-40 bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center transition-transform duration-300 group-hover:scale-110 cursor-pointer">
                             <BookOpen className="h-12 w-12 text-white" />
                           </div>
                         )}
