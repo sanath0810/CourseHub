@@ -1,5 +1,6 @@
 // Mock data for the frontend-only demo
 import { generateCourses, getCuratedThumbnail } from './videoPool';
+import { sanitizeCoursePrice } from './helpers';
 
 export const MOCK_COURSES = [
   {
@@ -1384,7 +1385,12 @@ export const getCourses = (params = {}) => {
   const endIndex = startIndex + limit;
   
   return {
-    courses: filteredCourses.slice(startIndex, endIndex),
+    courses: filteredCourses
+      .slice(startIndex, endIndex)
+      .map((course) => ({
+        ...course,
+        price: sanitizeCoursePrice(course.price, 499)
+      })),
     pagination: {
       page,
       limit,
@@ -1395,7 +1401,12 @@ export const getCourses = (params = {}) => {
 };
 
 export const getCourseById = (id) => {
-  return MOCK_COURSES.find(course => course.id == id);
+  const found = MOCK_COURSES.find(course => course.id == id);
+  if (!found) return null;
+  return {
+    ...found,
+    price: sanitizeCoursePrice(found.price, 499)
+  };
 };
 
 export const getMyEnrollments = (userId, params = {}) => {
