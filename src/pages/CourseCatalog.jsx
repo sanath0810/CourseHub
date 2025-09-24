@@ -194,7 +194,7 @@ export const CourseCatalog = () => {
                           <img
                             src={course.thumbnail}
                             alt={course.title}
-                            className="w-full h-36 object-cover transition-transform duration-300 group-hover:scale-110 cursor-pointer"
+                            className="w-full h-36  transition-transform duration-300 group-hover:scale-110 cursor-pointer"
                             loading="lazy"
                             data-fallback-step="0"
                             onError={(e) => {
