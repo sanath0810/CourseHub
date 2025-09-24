@@ -77,6 +77,13 @@ const curatedLogo = (title) => {
 };
 
 export const getCuratedThumbnail = (title, category, id) => {
+  const t = String(title || '').toLowerCase();
+  const c = String(category || '').toLowerCase();
+  // Prefer real photos for photography-related courses
+  if (/(photography|photo|camera)/.test(t) || /(photography|photo|camera)/.test(c)) {
+    const kw = 'photography,camera,studio,portrait,lighting';
+    return `https://loremflickr.com/640/360/${encodeURIComponent(kw)}?lock=${id}`;
+  }
   const logo = curatedLogo(title);
   if (logo) return logo;
   // Fallback to relevant photo with deterministic locking

@@ -280,7 +280,7 @@ export const CourseViewer = () => {
             <Card>
               <CardContent className="p-0">
                 {/* Video Player */}
-                <div className="aspect-video bg-black rounded-t-lg overflow-hidden">
+                <div className="h-[45vh] md:h-[55vh] bg-black rounded-t-lg overflow-hidden">
                   {currentLessonData?.videoUrl ? (
                     <div ref={playerContainerRef} className="w-full h-full" />
                   ) : (
