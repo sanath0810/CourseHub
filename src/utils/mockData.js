@@ -1277,6 +1277,13 @@ for (const course of MOCK_COURSES) {
   }
 }
 
+// Guarantee a solid image for Photography Masterclass specifically
+for (const course of MOCK_COURSES) {
+  if (/photography masterclass/i.test(course.title)) {
+    course.thumbnail = `https://loremflickr.com/640/360/${encodeURIComponent('photography,camera,studio,portrait,lighting')}?lock=${course.id}`;
+  }
+}
+
 // Enforce price cap: no course price should exceed 499
 for (const course of MOCK_COURSES) {
   if (typeof course.price === 'number' && course.price > 499) {
