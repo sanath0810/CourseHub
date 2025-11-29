@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, Filter, Star, Clock, Users, BookOpen, ChevronRight, SlidersHorizontal, X } from 'lucide-react';
+import { Search, Filter, Star, Clock, Users, BookOpen, ChevronRight, SlidersHorizontal, X, Play } from 'lucide-react';
 import { getCourses } from '../utils/mockData';
 import { Card, CardContent } from '../components/Card';
 import { getCourseLevelColor } from '../utils/helpers';
@@ -53,14 +53,14 @@ export const CourseCatalog = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <SEO
         title="Course Catalog - Browse All Courses"
         description="Explore thousands of high-quality courses in web development, data science, design, business, and more. Find the perfect course to advance your career."
         keywords="course catalog, online courses, web development, data science, design, business courses"
       />
       {/* Header Section */}
-      <div className="bg-gradient-to-r from-primary-900 via-primary-800 to-secondary-900 text-white py-16 relative overflow-hidden">
+      <div className="bg-gradient-to-r from-primary-900 via-primary-800 to-secondary-900 dark:from-primary-950 dark:via-primary-900 dark:to-secondary-950 text-white py-16 relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
         <div className="absolute top-0 right-0 w-96 h-96 bg-primary-500/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-secondary-500/20 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
@@ -107,9 +107,9 @@ export const CourseCatalog = () => {
 
           {/* Filters Sidebar */}
           <div className={`lg:w-72 flex-shrink-0 ${showMobileFilters ? 'block' : 'hidden lg:block'}`}>
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sticky top-24">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 sticky top-24">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-lg font-bold text-gray-900">Filters</h3>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white">Filters</h3>
                 {(selectedCategory || selectedLevel) && (
                   <button onClick={clearFilters} className="text-xs text-primary-600 hover:text-primary-700 font-medium">
                     Reset All
@@ -119,11 +119,11 @@ export const CourseCatalog = () => {
 
               <div className="space-y-8">
                 <div>
-                  <h4 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4">Categories</h4>
+                  <h4 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4">Categories</h4>
                   <div className="space-y-2">
                     {categories.map((category) => (
                       <label key={category} className="flex items-center gap-3 cursor-pointer group">
-                        <div className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${selectedCategory === category ? 'bg-primary-600 border-primary-600' : 'border-gray-300 group-hover:border-primary-400'}`}>
+                        <div className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${selectedCategory === category ? 'bg-primary-600 border-primary-600' : 'border-gray-300 dark:border-gray-600 group-hover:border-primary-400'}`}>
                           {selectedCategory === category && <div className="w-2 h-2 bg-white rounded-full" />}
                         </div>
                         <input
@@ -133,7 +133,7 @@ export const CourseCatalog = () => {
                           checked={selectedCategory === category}
                           onChange={() => { setSelectedCategory(category === selectedCategory ? '' : category); setCurrentPage(1); }}
                         />
-                        <span className={`text-sm ${selectedCategory === category ? 'text-primary-700 font-medium' : 'text-gray-600 group-hover:text-gray-900'}`}>
+                        <span className={`text-sm ${selectedCategory === category ? 'text-primary-700 dark:text-primary-400 font-medium' : 'text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white'}`}>
                           {category}
                         </span>
                       </label>
@@ -141,12 +141,12 @@ export const CourseCatalog = () => {
                   </div>
                 </div>
 
-                <div className="border-t border-gray-100 pt-6">
-                  <h4 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4">Level</h4>
+                <div className="border-t border-gray-100 dark:border-gray-700 pt-6">
+                  <h4 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4">Level</h4>
                   <div className="space-y-2">
                     {levels.map((level) => (
                       <label key={level} className="flex items-center gap-3 cursor-pointer group">
-                        <div className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${selectedLevel === level ? 'bg-primary-600 border-primary-600' : 'border-gray-300 group-hover:border-primary-400'}`}>
+                        <div className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${selectedLevel === level ? 'bg-primary-600 border-primary-600' : 'border-gray-300 dark:border-gray-600 group-hover:border-primary-400'}`}>
                           {selectedLevel === level && <div className="w-2 h-2 bg-white rounded-full" />}
                         </div>
                         <input
@@ -156,7 +156,7 @@ export const CourseCatalog = () => {
                           checked={selectedLevel === level}
                           onChange={() => { setSelectedLevel(level === selectedLevel ? '' : level); setCurrentPage(1); }}
                         />
-                        <span className={`text-sm capitalize ${selectedLevel === level ? 'text-primary-700 font-medium' : 'text-gray-600 group-hover:text-gray-900'}`}>
+                        <span className={`text-sm capitalize ${selectedLevel === level ? 'text-primary-700 dark:text-primary-400 font-medium' : 'text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white'}`}>
                           {level}
                         </span>
                       </label>
@@ -193,53 +193,109 @@ export const CourseCatalog = () => {
                   {courses.map((course) => (
                     <Card
                       key={course.id}
-                      className="group border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-primary-500/10 transition-all duration-300 overflow-hidden rounded-2xl bg-white h-full flex flex-col cursor-pointer"
+                      className="group border-0 shadow-md dark:shadow-lg hover:shadow-2xl hover:shadow-primary-500/20 dark:hover:shadow-primary-500/30 transition-all duration-500 overflow-hidden rounded-2xl bg-white dark:bg-gray-800 h-full flex flex-col cursor-pointer transform hover:-translate-y-1"
                       onClick={() => navigate(`/courses/${course.id}`)}
                     >
-                      <div className="relative h-48 overflow-hidden">
-                        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors z-10" />
+                      <div className="relative h-56 overflow-hidden bg-gradient-to-br from-primary-100 to-secondary-100 dark:from-primary-900/30 dark:to-secondary-900/30">
+                        {/* Image with better fallback */}
                         <img
-                          src={course.thumbnail || `https://source.unsplash.com/random/800x600?${course.category}`}
+                          src={course.thumbnail || `https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop&q=80`}
                           alt={course.title}
                           className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                          loading="lazy"
                           onError={(e) => {
-                            e.target.src = 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80';
+                            if (e.target.src.includes('unsplash')) {
+                              e.target.src = `https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop&q=80`;
+                            } else {
+                              e.target.style.display = 'none';
+                            }
                           }}
                         />
-                        <div className="absolute top-3 right-3 z-20">
-                          <span className={`px-3 py-1 text-xs font-bold rounded-full bg-white/90 shadow-sm uppercase tracking-wide ${course.level === 'beginner' ? 'text-green-700' :
-                              course.level === 'intermediate' ? 'text-blue-700' : 'text-purple-700'
-                            }`}>
+                        {/* Gradient overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 group-hover:from-black/70 transition-all duration-300" />
+                        
+                        {/* Level Badge */}
+                        <div className="absolute top-4 left-4 z-20">
+                          <span className={`px-3 py-1.5 text-xs font-bold rounded-lg backdrop-blur-md shadow-lg uppercase tracking-wide ${
+                            course.level === 'beginner' 
+                              ? 'bg-green-500/90 text-white' 
+                              : course.level === 'intermediate' 
+                              ? 'bg-blue-500/90 text-white' 
+                              : 'bg-purple-500/90 text-white'
+                          }`}>
                             {course.level}
+                          </span>
+                        </div>
+
+                        {/* Price Badge */}
+                        <div className="absolute top-4 right-4 z-20">
+                          <span className="px-3 py-1.5 text-sm font-bold rounded-lg bg-primary-600 text-white shadow-lg backdrop-blur-sm">
+                            {course.price === 0 ? 'Free' : `$${course.price}`}
+                          </span>
+                        </div>
+
+                        {/* Hover overlay with quick view */}
+                        <div className="absolute inset-0 bg-primary-600/90 dark:bg-primary-700/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10">
+                          <span className="text-white font-semibold text-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                            View Course →
                           </span>
                         </div>
                       </div>
 
-                      <CardContent className="p-5 flex-1 flex flex-col">
-                        <div className="flex items-center gap-2 mb-3 text-xs font-medium text-primary-600 uppercase tracking-wide">
-                          <BookOpen className="w-3 h-3" />
-                          {course.category}
+                      <CardContent className="p-6 flex-1 flex flex-col">
+                        {/* Category */}
+                        <div className="flex items-center gap-2 mb-3">
+                          <div className="px-2.5 py-1 rounded-md bg-primary-50 dark:bg-primary-900/30">
+                            <BookOpen className="w-3.5 h-3.5 text-primary-600 dark:text-primary-400" />
+                          </div>
+                          <span className="text-xs font-semibold text-primary-600 dark:text-primary-400 uppercase tracking-wider">
+                            {course.category}
+                          </span>
                         </div>
 
-                        <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-primary-600 transition-colors">
+                        {/* Title */}
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 line-clamp-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors leading-tight">
                           {course.title}
                         </h3>
 
-                        <p className="text-gray-500 text-sm line-clamp-2 mb-4 flex-1">
+                        {/* Description */}
+                        <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-3 mb-5 flex-1 leading-relaxed">
                           {course.description}
                         </p>
 
-                        <div className="flex items-center justify-between pt-4 border-t border-gray-50 mt-auto">
-                          <div className="flex items-center gap-2">
-                            <img
-                              src={course.instructorAvatar || `https://ui-avatars.com/api/?name=${course.firstName}+${course.lastName}&background=random`}
-                              alt={course.firstName}
-                              className="w-6 h-6 rounded-full border border-gray-200"
-                            />
-                            <span className="text-xs font-medium text-gray-600">{course.firstName} {course.lastName}</span>
+                        {/* Rating */}
+                        <div className="flex items-center gap-1 mb-4">
+                          <div className="flex items-center gap-0.5">
+                            {[...Array(5)].map((_, i) => (
+                              <Star 
+                                key={i} 
+                                className={`w-4 h-4 ${i < 4 ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300 dark:text-gray-600'}`} 
+                              />
+                            ))}
                           </div>
-                          <div className="font-bold text-gray-900">
-                            {course.price === 0 ? 'Free' : `$${course.price}`}
+                          <span className="text-sm font-semibold text-gray-700 dark:text-gray-300 ml-1">4.8</span>
+                          <span className="text-xs text-gray-500 dark:text-gray-500 ml-1">(128)</span>
+                        </div>
+
+                        {/* Footer */}
+                        <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-700 mt-auto">
+                          <div className="flex items-center gap-3">
+                            <div className="relative">
+                              <img
+                                src={course.instructorAvatar || `https://ui-avatars.com/api/?name=${course.firstName}+${course.lastName}&background=6366f1&color=fff&size=128&bold=true`}
+                                alt={course.firstName}
+                                className="w-8 h-8 rounded-full border-2 border-white dark:border-gray-700 shadow-sm object-cover"
+                                onError={(e) => {
+                                  e.target.src = `https://ui-avatars.com/api/?name=${course.firstName}+${course.lastName}&background=6366f1&color=fff&size=128&bold=true`;
+                                }}
+                              />
+                            </div>
+                            <div>
+                              <p className="text-sm font-semibold text-gray-900 dark:text-white">
+                                {course.firstName} {course.lastName}
+                              </p>
+                              <p className="text-xs text-gray-500 dark:text-gray-400">Instructor</p>
+                            </div>
                           </div>
                         </div>
                       </CardContent>

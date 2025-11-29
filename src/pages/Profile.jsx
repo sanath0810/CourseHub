@@ -43,14 +43,14 @@ export const Profile = () => {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-6 bg-gray-50 dark:bg-gray-900 min-h-screen">
       <SEO
         title="Profile Settings"
         description="Manage your profile information and account settings"
         keywords="profile, settings, account"
       />
       <div className="max-w-2xl mx-auto">
-        <h1 className="text-2xl font-bold text-gray-900 mb-8">Profile Settings</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">Profile Settings</h1>
         
         <Card>
           <CardHeader>

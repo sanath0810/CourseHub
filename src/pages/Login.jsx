@@ -59,7 +59,7 @@ export const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex bg-white">
+    <div className="min-h-screen flex bg-white dark:bg-gray-900">
       <SEO
         title="Sign In"
         description="Sign in to your CourseHub account to access your courses and continue learning"
@@ -73,10 +73,10 @@ export const Login = () => {
               <div className="w-8 h-8 rounded-lg bg-primary-600 flex items-center justify-center text-white font-bold text-lg group-hover:bg-primary-700 transition-colors">
                 C
               </div>
-              <span className="text-xl font-bold text-gray-900">CourseHub</span>
+              <span className="text-xl font-bold text-gray-900 dark:text-white">CourseHub</span>
             </Link>
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">Welcome back</h2>
-            <p className="text-gray-600">
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Welcome back</h2>
+            <p className="text-gray-600 dark:text-gray-400">
               Please enter your details to sign in.
             </p>
           </div>

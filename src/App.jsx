@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './contexts/AuthContext';
 import { ProgressProvider } from './contexts/ProgressContext';
+import { CartProvider } from './contexts/CartContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { Layout } from './components/Layout';
 import { Home } from './pages/Home';
@@ -19,13 +20,15 @@ import { AssignmentManagement } from './pages/AssignmentManagement';
 import { CourseViewer } from './pages/CourseViewer';
 import { AssignmentSubmission } from './pages/AssignmentSubmission';
 import { Analytics } from './pages/instructor/Analytics';
+import { Cart } from './pages/Cart';
 
 function App() {
   return (
     <AuthProvider>
       <ProgressProvider>
-        <Router>
-          <div className="min-h-screen bg-gray-50">
+        <CartProvider>
+          <Router>
+            <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
             <Routes>
               {/* Public routes (wrapped with Layout for navbar/sidebar) */}
               <Route path="/" element={<Home />} />
@@ -33,6 +36,7 @@ function App() {
               <Route path="/register" element={<Layout><Register /></Layout>} />
               <Route path="/courses" element={<Layout><CourseCatalog /></Layout>} />
               <Route path="/courses/:id" element={<Layout><CourseDetail /></Layout>} />
+              <Route path="/cart" element={<Layout><Cart /></Layout>} />
 
               {/* Protected routes */}
               <Route path="/dashboard" element={
@@ -130,6 +134,7 @@ function App() {
             />
           </div>
         </Router>
+        </CartProvider>
       </ProgressProvider>
     </AuthProvider>
   );

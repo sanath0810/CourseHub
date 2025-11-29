@@ -9,9 +9,11 @@ import {
   CheckCircle,
   User,
   Calendar,
-  Award
+  Award,
+  ShoppingCart
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { useCart } from '../contexts/CartContext';
 import { getCourseById } from '../utils/mockData';
 import { Card, CardContent, CardHeader } from '../components/Card';
 import { Button } from '../components/Button';
@@ -23,6 +25,7 @@ import { SkeletonCard, SkeletonText } from '../components/SkeletonLoader';
 export const CourseDetail = () => {
   const { id } = useParams();
   const { user, isAuthenticated, isStudent } = useAuth();
+  const { addToCart, isInCart } = useCart();
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
   const [enrolled, setEnrolled] = useState(false);
@@ -73,6 +76,27 @@ export const CourseDetail = () => {
     setEnrolled(true);
     toast.success('Successfully enrolled in course!');
     setEnrolling(false);
+  };
+
+  const handleAddToCart = () => {
+    if (!isAuthenticated) {
+      toast.error('Please sign in to add courses to cart');
+      return;
+    }
+    if (!isStudent) {
+      toast.error('Only students can add courses to cart');
+      return;
+    }
+    if (enrolled) {
+      toast.error('You are already enrolled in this course');
+      return;
+    }
+    if (isInCart(course.id)) {
+      toast.error('Course is already in your cart');
+      return;
+    }
+    addToCart(course);
+    toast.success(`${course.title} added to cart!`);
   };
 
   const calculateTotalDuration = () => {
@@ -127,7 +151,7 @@ export const CourseDetail = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <SEO
         title={course.title}
         description={course.description}
@@ -136,18 +160,18 @@ export const CourseDetail = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
-          <nav className="flex items-center space-x-2 text-sm text-gray-600 mb-4">
-            <Link to="/courses" className="hover:text-gray-900">Courses</Link>
+          <nav className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400 mb-4">
+            <Link to="/courses" className="hover:text-gray-900 dark:hover:text-white">Courses</Link>
             <span>/</span>
-            <span className="text-gray-900">{course.title}</span>
+            <span className="text-gray-900 dark:text-white">{course.title}</span>
           </nav>
           
           <div className="flex items-start justify-between">
             <div className="flex-1">
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">{course.title}</h1>
-              <p className="text-lg text-gray-600 mb-4">{course.description}</p>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{course.title}</h1>
+              <p className="text-lg text-gray-600 dark:text-gray-400 mb-4">{course.description}</p>
               
-              <div className="flex items-center space-x-6 text-sm text-gray-600">
+              <div className="flex items-center space-x-6 text-sm text-gray-600 dark:text-gray-400">
                 <div className="flex items-center">
                   <User className="h-4 w-4 mr-1" />
                   <span>{course.firstName} {course.lastName}</span>
@@ -290,14 +314,33 @@ export const CourseDetail = () => {
                 ) : (
                   <div className="space-y-4">
                     {isAuthenticated ? (
-                      <Button
-                        className="w-full"
-                        onClick={handleEnroll}
-                        loading={enrolling}
-                        disabled={enrolling}
-                      >
-                        {course.price === 0 ? 'Enroll for Free' : `Enroll for $${course.price}`}
-                      </Button>
+                      <>
+                        {isInCart(course.id) ? (
+                          <Link to="/cart" className="block">
+                            <Button variant="outline" className="w-full">
+                              <ShoppingCart className="h-4 w-4 mr-2" />
+                              View in Cart
+                            </Button>
+                          </Link>
+                        ) : (
+                          <Button
+                            className="w-full mb-3"
+                            onClick={handleAddToCart}
+                          >
+                            <ShoppingCart className="h-4 w-4 mr-2" />
+                            Add to Cart
+                          </Button>
+                        )}
+                        <Button
+                          className="w-full"
+                          onClick={handleEnroll}
+                          loading={enrolling}
+                          disabled={enrolling}
+                          variant={isInCart(course.id) ? "primary" : "outline"}
+                        >
+                          {course.price === 0 ? 'Enroll for Free' : `Enroll for $${course.price}`}
+                        </Button>
+                      </>
                     ) : (
                       <div className="space-y-3">
                         <Link to="/login" className="block">
@@ -305,9 +348,9 @@ export const CourseDetail = () => {
                             Sign in to Enroll
                           </Button>
                         </Link>
-                        <p className="text-xs text-gray-600 text-center">
+                        <p className="text-xs text-gray-600 dark:text-gray-400 text-center">
                           Already have an account?{' '}
-                          <Link to="/login" className="text-primary-600 hover:text-primary-500">
+                          <Link to="/login" className="text-primary-600 dark:text-primary-400 hover:text-primary-500">
                             Sign in
                           </Link>
                         </p>
@@ -316,9 +359,9 @@ export const CourseDetail = () => {
                   </div>
                 )}
 
-                <div className="mt-6 pt-6 border-t border-gray-200">
-                  <h3 className="font-medium text-gray-900 mb-3">What you'll get</h3>
-                  <ul className="space-y-2 text-sm text-gray-600">
+                <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+                  <h3 className="font-medium text-gray-900 dark:text-white mb-3">What you'll get</h3>
+                  <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
                     <li className="flex items-center">
                       <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
                       Lifetime access
@@ -338,9 +381,9 @@ export const CourseDetail = () => {
                   </ul>
                 </div>
 
-                <div className="mt-6 pt-6 border-t border-gray-200">
-                  <h3 className="font-medium text-gray-900 mb-3">Course includes</h3>
-                  <ul className="space-y-2 text-sm text-gray-600">
+                <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+                  <h3 className="font-medium text-gray-900 dark:text-white mb-3">Course includes</h3>
+                  <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
                     <li className="flex items-center">
                       <Award className="h-4 w-4 text-primary-500 mr-2" />
                       {getTotalLessons()} lessons

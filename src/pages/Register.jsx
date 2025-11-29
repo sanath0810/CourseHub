@@ -66,7 +66,7 @@ export const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex bg-white">
+    <div className="min-h-screen flex bg-white dark:bg-gray-900">
       <SEO
         title="Sign Up"
         description="Create your CourseHub account to start learning from thousands of expert-led courses"
@@ -80,7 +80,7 @@ export const Register = () => {
               <div className="w-8 h-8 rounded-lg bg-primary-600 flex items-center justify-center text-white font-bold text-lg group-hover:bg-primary-700 transition-colors">
                 C
               </div>
-              <span className="text-xl font-bold text-gray-900">CourseHub</span>
+              <span className="text-xl font-bold text-gray-900 dark:text-white">CourseHub</span>
             </Link>
             <h2 className="text-3xl font-bold text-gray-900 mb-2">Create an account</h2>
             <p className="text-gray-600">
