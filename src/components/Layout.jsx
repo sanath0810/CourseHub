@@ -1,26 +1,15 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { 
-  Home, 
-  BookOpen, 
-  User, 
-  Settings, 
-  LogOut, 
-  Menu, 
-  X,
-  GraduationCap,
-  Users,
-  FileText,
-  BarChart3
+import {
+  Home, BookOpen, User, LogOut, X, GraduationCap, Menu
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 export const Layout = ({ children }) => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user, logout, isEducator, isStudent } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
-
 
   const handleLogout = () => {
     logout();
@@ -50,186 +39,143 @@ export const Layout = ({ children }) => {
   const isActive = (href) => location.pathname === href;
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Mobile sidebar (disabled for horizontal navbar) */}
-      <div className="hidden">
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-75" onClick={() => setSidebarOpen(false)} />
-        <div className="fixed inset-y-0 left-0 flex w-64 flex-col bg-white">
-          <div className="flex h-16 items-center justify-center px-4">
-            <h1 className="text-xl font-bold text-primary-600">CourseHub</h1>
-            <button
-              onClick={() => setSidebarOpen(false)}
-              className="text-gray-400 hover:text-gray-600"
-            >
-              <X className="h-6 w-6" />
-            </button>
-          </div>
-          <nav className="flex-1 space-y-1 px-2 py-4">
-            {allNavigation.map((item) => (
-              <Link
-                key={item.name}
-                to={item.href}
-                className={`group flex items-center px-2 py-2 text-sm font-medium rounded-md ${
-                  isActive(item.href)
-                    ? 'bg-primary-100 text-primary-900'
-                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-                }`}
-                onClick={() => setSidebarOpen(false)}
-              >
-                <item.icon className="mr-3 h-5 w-5" />
-                {item.name}
-              </Link>
-            ))}
-          </nav>
-          <div className="border-t border-gray-200 p-4">
-            {user ? (
-              <>
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    {user.avatar ? (
-                      <img className="h-8 w-8 rounded-full" src={user.avatar} alt={user.firstName} />
-                    ) : (
-                      <div className="h-8 w-8 rounded-full bg-primary-500 flex items-center justify-center text-white text-sm font-medium">
-                        {user.firstName?.charAt(0)}{user.lastName?.charAt(0)}
-                      </div>
-                    )}
-                  </div>
-                  <div className="ml-3">
-                    <p className="text-sm font-medium text-gray-700">{user.firstName} {user.lastName}</p>
-                    <p className="text-xs text-gray-500 capitalize">{user.role}</p>
-                  </div>
+    <div className="min-h-screen bg-gray-50 flex flex-col">
+      {/* Navbar */}
+      <nav className="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between h-16">
+            <div className="flex items-center">
+              <Link to="/" className="flex items-center gap-2 group">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-600 to-secondary-500 flex items-center justify-center text-white font-bold text-lg shadow-md shadow-primary-500/20 group-hover:shadow-primary-500/40 transition-all">
+                  C
                 </div>
-                <button
-                  onClick={handleLogout}
-                  className="mt-3 flex w-full items-center justify-center px-3 py-2 text-sm bg-red-600 text-white rounded-md hover:bg-red-700"
-                >
-                  <LogOut className="mr-2 h-4 w-4" />
-                  Sign out
-                </button>
-              </>
-            ) : (
-              <div className="flex items-center justify-between">
-                <Link to="/login" className="text-sm text-primary-600 hover:underline">Login</Link>
-                <Link to="/register" className="text-sm text-gray-600 hover:underline">Register</Link>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Desktop sidebar (disabled for horizontal navbar) */}
-      <div className="hidden">
-        <div className="flex flex-col flex-grow bg-white border-r border-gray-200">
-          <div className="flex h-16 items-center px-4">
-            <h1 className="text-xl font-bold text-primary-600">CourseHub</h1>
-          </div>
-          <nav className="flex-1 space-y-1 px-2 py-4">
-            {allNavigation.map((item) => (
-              <Link
-                key={item.name}
-                to={item.href}
-                className={`group flex items-center px-2 py-2 text-sm font-medium rounded-md ${
-                  isActive(item.href)
-                    ? 'bg-primary-100 text-primary-900'
-                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-                }`}
-              >
-                <item.icon className="mr-3 h-5 w-5" />
-                {item.name}
+                <span className="text-xl font-bold text-gray-900 tracking-tight">CourseHub</span>
               </Link>
-            ))}
-          </nav>
-          <div className="border-t border-gray-200 p-4">
-            {user ? (
-              <>
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    {user.avatar ? (
-                      <img className="h-8 w-8 rounded-full" src={user.avatar} alt={user.firstName} />
-                    ) : (
-                      <div className="h-8 w-8 rounded-full bg-primary-500 flex items-center justify-center text-white text-sm font-medium">
-                        {user.firstName?.charAt(0)}{user.lastName?.charAt(0)}
-                      </div>
-                    )}
-                  </div>
-                  <div className="ml-3">
-                    <p className="text-sm font-medium text-gray-700">{user.firstName} {user.lastName}</p>
-                    <p className="text-xs text-gray-500 capitalize">{user.role}</p>
-                  </div>
-                </div>
-                <button
-                  onClick={handleLogout}
-                  className="mt-3 flex w-full items-center justify-center px-3 py-2 text-sm bg-red-600 text-white rounded-md hover:bg-red-700"
-                >
-                  <LogOut className="mr-2 h-4 w-4" />
-                  Sign out
-                </button>
-              </>
-            ) : (
-              <div className="flex items-center justify-between">
-                <Link to="/login" className="text-sm text-primary-600 hover:underline">Login</Link>
-                <Link to="/register" className="text-sm text-gray-600 hover:underline">Register</Link>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Main content */}
-      <div>
-        {/* Top bar (horizontal navbar, always visible) */}
-        <div className="sticky top-0 z-10 bg-white border-b border-gray-200">
-          <div className="max-w-screen-2xl mx-auto grid grid-cols-3 h-16 items-center px-6 md:px-8 lg:px-10">
-            {/* Brand (left) */}
-            <div className="flex items-center justify-start">
-              <Link to="/" className="text-lg font-bold text-primary-600">CourseHub</Link>
             </div>
 
-            {/* Centered navigation */}
-            <nav className="hidden md:flex items-center justify-center gap-6">
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center space-x-1">
               {allNavigation.map((item) => (
                 <Link
                   key={item.name}
                   to={item.href}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive(item.href) ? 'text-primary-700 bg-primary-50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'}`}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${isActive(item.href)
+                      ? 'bg-primary-50 text-primary-700'
+                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                    }`}
                 >
-                  {item.name}
+                  <div className="flex items-center gap-2">
+                    <item.icon className={`w-4 h-4 ${isActive(item.href) ? 'text-primary-600' : 'text-gray-400'}`} />
+                    {item.name}
+                  </div>
                 </Link>
               ))}
-            </nav>
+            </div>
 
-            {/* Auth actions (right) */}
-            <div className="flex items-center justify-end space-x-4">
+            {/* User Menu */}
+            <div className="hidden md:flex items-center gap-4">
               {user ? (
-                <>
-                  <div className="hidden sm:flex items-center space-x-2 text-sm text-gray-700">
-                    <div className="h-8 w-8 rounded-full bg-primary-500 flex items-center justify-center text-white text-sm font-medium">
-                      {user.firstName?.charAt(0)}{user.lastName?.charAt(0)}
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-3 pl-4 border-l border-gray-200">
+                    <div className="text-right hidden lg:block">
+                      <p className="text-sm font-semibold text-gray-900">{user.firstName} {user.lastName}</p>
+                      <p className="text-xs text-gray-500 capitalize">{user.role}</p>
                     </div>
-                    <span>{user.firstName} {user.lastName}</span>
+                    <div className="h-9 w-9 rounded-full bg-gradient-to-br from-primary-100 to-primary-200 border-2 border-white shadow-sm flex items-center justify-center text-primary-700 font-bold text-sm">
+                      {user.avatar ? (
+                        <img className="h-full w-full rounded-full object-cover" src={user.avatar} alt="" />
+                      ) : (
+                        `${user.firstName?.charAt(0)}${user.lastName?.charAt(0)}`
+                      )}
+                    </div>
                   </div>
                   <button
                     onClick={handleLogout}
-                    className="px-3 py-2 rounded-md text-sm bg-red-600 text-white hover:bg-red-700"
+                    className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-full transition-colors"
+                    title="Sign out"
                   >
-                    Sign out
+                    <LogOut className="w-5 h-5" />
                   </button>
-                </>
+                </div>
               ) : (
-                <div className="flex items-center space-x-3">
-                  <Link to="/login" className="text-sm text-primary-600 hover:underline">Login</Link>
-                  <Link to="/register" className="text-sm text-gray-600 hover:underline">Register</Link>
+                <div className="flex items-center gap-3">
+                  <Link to="/login" className="text-sm font-medium text-gray-700 hover:text-primary-600 transition-colors">
+                    Log in
+                  </Link>
+                  <Link to="/register" className="px-4 py-2 bg-primary-600 text-white rounded-full text-sm font-medium hover:bg-primary-700 transition-colors shadow-lg shadow-primary-600/20">
+                    Sign up
+                  </Link>
                 </div>
               )}
+            </div>
+
+            {/* Mobile menu button */}
+            <div className="flex items-center md:hidden">
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none"
+              >
+                {mobileMenuOpen ? (
+                  <X className="block h-6 w-6" />
+                ) : (
+                  <Menu className="block h-6 w-6" />
+                )}
+              </button>
             </div>
           </div>
         </div>
 
-        {/* Page content */}
-        <main className="flex-1">
-          {children}
-        </main>
-      </div>
+        {/* Mobile menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden border-t border-gray-200 bg-white">
+            <div className="pt-2 pb-3 space-y-1 px-4">
+              {allNavigation.map((item) => (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`block px-3 py-2 rounded-md text-base font-medium ${isActive(item.href)
+                      ? 'bg-primary-50 text-primary-700'
+                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                    }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <item.icon className="w-5 h-5" />
+                    {item.name}
+                  </div>
+                </Link>
+              ))}
+            </div>
+            {user && (
+              <div className="pt-4 pb-4 border-t border-gray-200 px-4">
+                <div className="flex items-center mb-4">
+                  <div className="flex-shrink-0">
+                    <div className="h-10 w-10 rounded-full bg-primary-100 flex items-center justify-center text-primary-700 font-bold">
+                      {user.firstName?.charAt(0)}{user.lastName?.charAt(0)}
+                    </div>
+                  </div>
+                  <div className="ml-3">
+                    <div className="text-base font-medium text-gray-800">{user.firstName} {user.lastName}</div>
+                    <div className="text-sm font-medium text-gray-500">{user.email}</div>
+                  </div>
+                </div>
+                <button
+                  onClick={handleLogout}
+                  className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700"
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Sign out
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+      </nav>
+
+      {/* Page Content */}
+      <main className="flex-1 w-full">
+        {children}
+      </main>
     </div>
   );
 };
