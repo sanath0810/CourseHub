@@ -2,6 +2,8 @@
 
 A comprehensive online course management system built with React, featuring separate interfaces for educators and students. This is a **frontend-only demo** with mock authentication and data.
 
+## CourseHub Link  : https://course-hub-sage.vercel.app/
+
 ## 🔐 Demo Login Credentials
 
 Use these credentials to test the application:
