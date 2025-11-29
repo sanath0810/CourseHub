@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  BookOpen, 
-  Users, 
-  TrendingUp, 
-  Clock, 
+import {
+  BookOpen,
+  Users,
+  TrendingUp,
+  Clock,
   Award,
   Plus,
   Eye,
-  Calendar
+  Calendar,
+  CheckCircle
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { getMyEnrollments, getMyCourses } from '../utils/mockData';
@@ -37,16 +38,16 @@ export const Dashboard = () => {
 
   const fetchDashboardData = () => {
     setLoading(true);
-    
+
     if (isEducator) {
       // Fetch educator dashboard data
       const coursesResponse = getMyCourses(user.id, { limit: 5 });
       setRecentCourses(coursesResponse.courses);
-      
+
       // Calculate stats
       const totalCourses = coursesResponse.pagination.total;
       const totalStudents = coursesResponse.courses.reduce((sum, course) => sum + course.enrollmentCount, 0);
-      
+
       setStats({
         totalCourses,
         totalStudents,
@@ -57,11 +58,11 @@ export const Dashboard = () => {
       // Fetch student dashboard data
       const enrollmentsResponse = getMyEnrollments(user.id, { limit: 5 });
       setMyEnrollments(enrollmentsResponse.enrollments);
-      
+
       // Calculate stats
       const totalEnrollments = enrollmentsResponse.pagination.total;
       const averageProgress = enrollmentsResponse.enrollments.reduce((sum, enrollment) => sum + enrollment.progress, 0) / enrollmentsResponse.enrollments.length || 0;
-      
+
       setStats({
         totalCourses: totalEnrollments,
         totalStudents: 0,
@@ -113,7 +114,7 @@ export const Dashboard = () => {
           Welcome back, {user.firstName}!
         </h1>
         <p className="text-gray-600 dark:text-gray-400 mt-1">
-          Here's what's happening with your {isEducator ? 'courses' : 'learning'} today.
+          Here's what's happening with your {user?.role === 'admin' ? 'platform' : isEducator ? 'courses' : 'learning'} today.
         </p>
       </div>
 
@@ -144,6 +145,33 @@ export const Dashboard = () => {
               value={`${Math.round(stats.averageProgress)}%`}
               icon={Award}
               color="purple"
+            />
+          </>
+        ) : user?.role === 'admin' ? (
+          <>
+            <StatCard
+              title="Total Users"
+              value="1,234"
+              icon={Users}
+              color="blue"
+            />
+            <StatCard
+              title="Active Sessions"
+              value="45"
+              icon={TrendingUp}
+              color="green"
+            />
+            <StatCard
+              title="System Health"
+              value="98%"
+              icon={Clock}
+              color="purple"
+            />
+            <StatCard
+              title="Total Revenue"
+              value="$12.5k"
+              icon={Award}
+              color="primary"
             />
           </>
         ) : (
@@ -233,6 +261,25 @@ export const Dashboard = () => {
                   </Link>
                 </div>
               )
+            ) : user?.role === 'admin' ? (
+              <div className="space-y-4">
+                <div className="p-4 border border-gray-200 rounded-lg">
+                  <h3 className="font-medium text-gray-900 mb-2">Recent System Alerts</h3>
+                  <div className="space-y-2">
+                    <div className="flex items-center text-sm text-yellow-600 bg-yellow-50 p-2 rounded">
+                      <Clock className="h-4 w-4 mr-2" />
+                      <span>High server load detected (5 mins ago)</span>
+                    </div>
+                    <div className="flex items-center text-sm text-green-600 bg-green-50 p-2 rounded">
+                      <CheckCircle className="h-4 w-4 mr-2" />
+                      <span>Backup completed successfully (1 hour ago)</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="text-center pt-4">
+                  <Button variant="outline">View All Logs</Button>
+                </div>
+              </div>
             ) : (
               myEnrollments.length > 0 ? (
                 <div className="space-y-4">
@@ -332,6 +379,36 @@ export const Dashboard = () => {
                     </div>
                   </div>
                 </Link>
+              </div>
+            ) : user?.role === 'admin' ? (
+              <div className="space-y-4">
+                <div className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">
+                  <div className="flex items-center">
+                    <Users className="h-5 w-5 text-blue-600 mr-3" />
+                    <div>
+                      <h3 className="font-medium text-gray-900">Manage Users</h3>
+                      <p className="text-sm text-gray-600">View and edit user accounts</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">
+                  <div className="flex items-center">
+                    <BookOpen className="h-5 w-5 text-green-600 mr-3" />
+                    <div>
+                      <h3 className="font-medium text-gray-900">Content Moderation</h3>
+                      <p className="text-sm text-gray-600">Review reported content</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">
+                  <div className="flex items-center">
+                    <TrendingUp className="h-5 w-5 text-purple-600 mr-3" />
+                    <div>
+                      <h3 className="font-medium text-gray-900">Platform Analytics</h3>
+                      <p className="text-sm text-gray-600">View detailed system reports</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             ) : (
               <div className="space-y-4">

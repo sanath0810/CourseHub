@@ -10,9 +10,50 @@ export const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
-  const { login, signInWithGoogle } = useAuth();
+  const { login, register: registerUser, signInWithGoogle } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const handleDemoLogin = async (role) => {
+    setLoading(true);
+    const email = `${role}@demo.com`;
+    const password = 'password123';
+
+    try {
+      // Try to login first
+      const result = await login(email, password);
+
+      if (result.success) {
+        toast.success(`Welcome back, ${role}!`);
+        navigate('/dashboard');
+      } else {
+        // If login fails, try to register
+        if (result.error.includes('user-not-found') || result.error.includes('invalid-credential')) {
+          const regResult = await registerUser({
+            email,
+            password,
+            firstName: 'Demo',
+            lastName: role.charAt(0).toUpperCase() + role.slice(1),
+            role
+          });
+
+          if (regResult.success) {
+            toast.success(`Demo ${role} account created!`);
+            navigate('/dashboard');
+          } else {
+            toast.error(regResult.error);
+          }
+        } else {
+          toast.error(result.error);
+        }
+      }
+    } catch (e) {
+      console.error(e);
+      toast.error('An unexpected error occurred');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const from = location.state?.from?.pathname || '/dashboard';
 
@@ -199,6 +240,25 @@ export const Login = () => {
                 </svg>
                 {googleLoading ? 'Signing in...' : 'Sign in with Google'}
               </button>
+
+              <div className="grid grid-cols-2 gap-4 mt-4">
+                <button
+                  type="button"
+                  onClick={() => handleDemoLogin('educator')}
+                  disabled={loading || googleLoading}
+                  className="flex items-center justify-center py-3 px-4 border border-gray-300 rounded-xl shadow-sm bg-white text-sm font-bold text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                  Demo Teacher
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleDemoLogin('admin')}
+                  disabled={loading || googleLoading}
+                  className="flex items-center justify-center py-3 px-4 border border-gray-300 rounded-xl shadow-sm bg-white text-sm font-bold text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                  Demo Admin
+                </button>
+              </div>
             </div>
 
             <div className="mt-6">
