@@ -17,6 +17,8 @@ import { Card, CardContent, CardHeader } from '../components/Card';
 import { Button } from '../components/Button';
 import { getCourseLevelColor, formatDuration } from '../utils/helpers';
 import toast from 'react-hot-toast';
+import { SEO } from '../components/SEO';
+import { SkeletonCard, SkeletonText } from '../components/SkeletonLoader';
 
 export const CourseDetail = () => {
   const { id } = useParams();
@@ -90,6 +92,7 @@ export const CourseDetail = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50">
+        <SEO title="Loading Course..." />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="animate-pulse">
             <div className="h-8 bg-gray-200 rounded w-1/3 mb-4"></div>
@@ -97,14 +100,10 @@ export const CourseDetail = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2">
                 <div className="h-64 bg-gray-200 rounded mb-6"></div>
-                <div className="space-y-4">
-                  <div className="h-4 bg-gray-200 rounded"></div>
-                  <div className="h-4 bg-gray-200 rounded"></div>
-                  <div className="h-4 bg-gray-200 rounded w-3/4"></div>
-                </div>
+                <SkeletonText lines={5} />
               </div>
               <div>
-                <div className="h-96 bg-gray-200 rounded"></div>
+                <SkeletonCard />
               </div>
             </div>
           </div>
@@ -116,6 +115,7 @@ export const CourseDetail = () => {
   if (!course) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <SEO title="Course Not Found" description="The requested course could not be found" />
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-4">Course not found</h1>
           <Link to="/courses">
@@ -128,6 +128,11 @@ export const CourseDetail = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <SEO
+        title={course.title}
+        description={course.description}
+        keywords={`${course.category}, ${course.level}, online course, ${course.title}`}
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">

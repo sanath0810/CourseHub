@@ -4,6 +4,8 @@ import { Search, Filter, Star, Clock, Users, BookOpen, ChevronRight, SlidersHori
 import { getCourses } from '../utils/mockData';
 import { Card, CardContent } from '../components/Card';
 import { getCourseLevelColor } from '../utils/helpers';
+import { SEO } from '../components/SEO';
+import { SkeletonCard } from '../components/SkeletonLoader';
 
 export const CourseCatalog = () => {
   const navigate = useNavigate();
@@ -52,6 +54,11 @@ export const CourseCatalog = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <SEO
+        title="Course Catalog - Browse All Courses"
+        description="Explore thousands of high-quality courses in web development, data science, design, business, and more. Find the perfect course to advance your career."
+        keywords="course catalog, online courses, web development, data science, design, business courses"
+      />
       {/* Header Section */}
       <div className="bg-gradient-to-r from-primary-900 via-primary-800 to-secondary-900 text-white py-16 relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
@@ -165,11 +172,7 @@ export const CourseCatalog = () => {
             {loading ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {[...Array(6)].map((_, i) => (
-                  <div key={i} className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 animate-pulse">
-                    <div className="h-48 bg-gray-200 rounded-xl mb-4"></div>
-                    <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-                    <div className="h-3 bg-gray-200 rounded w-1/2"></div>
-                  </div>
+                  <SkeletonCard key={i} />
                 ))}
               </div>
             ) : courses.length > 0 ? (

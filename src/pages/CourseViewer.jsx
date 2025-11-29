@@ -5,6 +5,7 @@ import { Button } from '../components/Button';
 import { getCourseById } from '../utils/mockData';
 import { useProgress } from '../contexts/ProgressContext';
 import toast from 'react-hot-toast';
+import { SEO } from '../components/SEO';
 
 export const CourseViewer = () => {
   const { id } = useParams();
@@ -294,6 +295,11 @@ export const CourseViewer = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <SEO
+        title={course ? `${course.title} - Learning` : 'Course Viewer'}
+        description={course ? `Learn ${course.title} with expert instruction` : 'View and learn from course content'}
+        keywords={course ? `${course.title}, ${course.category}, learning, online course` : 'course viewer, learning'}
+      />
       {/* Progress Bar */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-4">

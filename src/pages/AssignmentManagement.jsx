@@ -2,12 +2,18 @@
 import { useParams } from 'react-router-dom';
 import { Card, CardContent, CardHeader } from '../components/Card';
 import { Button } from '../components/Button';
+import { SEO } from '../components/SEO';
 
 export const AssignmentManagement = () => {
   const { id } = useParams();
 
   return (
     <div className="p-6">
+      <SEO
+        title="Assignment Management"
+        description="Create and manage assignments for your course"
+        keywords="assignment management, course assignments, instructor"
+      />
       <Card>
         <CardHeader>
           <h1 className="text-2xl font-bold text-gray-900">Assignment Management</h1>

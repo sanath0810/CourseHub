@@ -7,6 +7,8 @@ import { Card, CardContent, CardHeader } from '../components/Card';
 import { Button } from '../components/Button';
 import { getStatusColor, formatDate } from '../utils/helpers';
 import toast from 'react-hot-toast';
+import { SEO } from '../components/SEO';
+import { SkeletonCard } from '../components/SkeletonLoader';
 
 export const CourseManagement = () => {
   const { user } = useAuth();
@@ -33,6 +35,11 @@ export const CourseManagement = () => {
 
   return (
     <div className="p-6">
+      <SEO
+        title="Course Management"
+        description="Manage and organize your courses as an instructor"
+        keywords="course management, instructor, courses, teaching"
+      />
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">My Courses</h1>
@@ -49,17 +56,7 @@ export const CourseManagement = () => {
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[...Array(6)].map((_, i) => (
-            <Card key={i} className="animate-pulse">
-              <div className="h-48 bg-gray-200 rounded-t-lg"></div>
-              <CardContent className="p-6">
-                <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                <div className="h-3 bg-gray-200 rounded mb-4"></div>
-                <div className="flex justify-between items-center">
-                  <div className="h-3 bg-gray-200 rounded w-20"></div>
-                  <div className="h-3 bg-gray-200 rounded w-16"></div>
-                </div>
-              </CardContent>
-            </Card>
+            <SkeletonCard key={i} />
           ))}
         </div>
       ) : courses.length > 0 ? (

@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader } from '../components/Card';
 import { Button } from '../components/Button';
 import { Input } from '../components/Input';
 import toast from 'react-hot-toast';
+import { SEO } from '../components/SEO';
 
 export const CreateCourse = () => {
   const navigate = useNavigate();
@@ -29,6 +30,11 @@ export const CreateCourse = () => {
 
   return (
     <div className="p-4 sm:p-6">
+      <SEO
+        title="Create New Course"
+        description="Create and publish your course on CourseHub"
+        keywords="create course, instructor, teaching, course creation"
+      />
       <div className="max-w-4xl mx-auto">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-start gap-3 sm:gap-4 mb-8">
           <div className="order-2 sm:order-1">

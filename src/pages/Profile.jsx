@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader } from '../components/Card';
 import { Button } from '../components/Button';
 import { Input } from '../components/Input';
 import toast from 'react-hot-toast';
+import { SEO } from '../components/SEO';
 
 export const Profile = () => {
   const { user, updateProfile } = useAuth();
@@ -43,6 +44,11 @@ export const Profile = () => {
 
   return (
     <div className="p-6">
+      <SEO
+        title="Profile Settings"
+        description="Manage your profile information and account settings"
+        keywords="profile, settings, account"
+      />
       <div className="max-w-2xl mx-auto">
         <h1 className="text-2xl font-bold text-gray-900 mb-8">Profile Settings</h1>
         

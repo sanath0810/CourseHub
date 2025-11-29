@@ -5,6 +5,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { getCourses } from '../utils/mockData';
 import { Card, CardContent } from '../components/Card';
 import TodoList from '../components/TodoList';
+import { SEO } from '../components/SEO';
 
 export const Home = () => {
   const { isAuthenticated, user } = useAuth();
@@ -24,6 +25,11 @@ export const Home = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 overflow-x-hidden">
+      <SEO
+        title="CourseHub - Learn New Skills Online"
+        description="Discover thousands of high-quality courses from expert instructors. Advance your career and learn new skills at your own pace."
+        keywords="online courses, learning, education, skills, training, e-learning"
+      />
       {/* Navigation */}
       <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/80 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-5'}`}>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">

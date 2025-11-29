@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { Eye, EyeOff, Mail, Lock, ArrowRight, CheckCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useAuth } from '../contexts/AuthContext';
+import { SEO } from '../components/SEO';
 
 export const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -59,6 +60,11 @@ export const Login = () => {
 
   return (
     <div className="min-h-screen flex bg-white">
+      <SEO
+        title="Sign In"
+        description="Sign in to your CourseHub account to access your courses and continue learning"
+        keywords="login, sign in, account, authentication"
+      />
       {/* Left Side - Form */}
       <div className="flex-1 flex flex-col justify-center px-4 sm:px-6 lg:px-20 xl:px-24">
         <div className="mx-auto w-full max-w-sm lg:w-96">

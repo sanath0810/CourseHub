@@ -18,6 +18,7 @@ import { StudentManagement } from './pages/StudentManagement';
 import { AssignmentManagement } from './pages/AssignmentManagement';
 import { CourseViewer } from './pages/CourseViewer';
 import { AssignmentSubmission } from './pages/AssignmentSubmission';
+import { Analytics } from './pages/instructor/Analytics';
 
 function App() {
   return (
@@ -87,6 +88,14 @@ function App() {
                 <ProtectedRoute allowedRoles={['educator', 'admin']}>
                   <Layout>
                     <AssignmentManagement />
+                  </Layout>
+                </ProtectedRoute>
+              } />
+
+              <Route path="/instructor/analytics" element={
+                <ProtectedRoute allowedRoles={['educator', 'admin']}>
+                  <Layout>
+                    <Analytics />
                   </Layout>
                 </ProtectedRoute>
               } />
