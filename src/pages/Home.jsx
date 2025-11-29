@@ -6,7 +6,7 @@ import { getCourses } from '../utils/mockData';
 import { Card, CardContent } from '../components/Card';
 import TodoList from '../components/TodoList';
 import { SEO } from '../components/SEO';
-import MouseParallax from '../components/MouseParallax';
+
 
 export const Home = () => {
   const { isAuthenticated, user } = useAuth();
@@ -144,13 +144,13 @@ export const Home = () => {
                 />
 
                 {/* Mouse Interactive Overlay */}
-                <MouseParallax strength={30} className="absolute inset-0 pointer-events-none">
+                <div className="absolute inset-0 pointer-events-none">
                   <div className="absolute top-10 right-10 w-20 h-20 bg-primary-500/20 rounded-full blur-xl" />
                   <div className="absolute bottom-10 left-10 w-32 h-32 bg-secondary-500/20 rounded-full blur-xl" />
-                </MouseParallax>
+                </div>
 
                 {/* Floating Cards */}
-                <MouseParallax strength={-20} className="absolute -left-8 top-10 z-20">
+                <div className="absolute -left-8 top-10 z-20">
                   <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 flex items-center gap-3 animate-bounce delay-700">
                     <div className="bg-green-100 p-2 rounded-lg">
                       <CheckCircle className="w-6 h-6 text-green-600" />
@@ -160,9 +160,9 @@ export const Home = () => {
                       <p className="text-sm font-bold text-gray-900 dark:text-white">React Advanced</p>
                     </div>
                   </div>
-                </MouseParallax>
+                </div>
 
-                <MouseParallax strength={-15} className="absolute -right-8 bottom-20 z-20">
+                <div className="absolute -right-8 bottom-20 z-20">
                   <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 flex items-center gap-3 animate-bounce delay-1000">
                     <div className="bg-orange-100 p-2 rounded-lg">
                       <Zap className="w-6 h-6 text-orange-600" />
@@ -172,7 +172,7 @@ export const Home = () => {
                       <p className="text-sm font-bold text-gray-900 dark:text-white">12 Days 🔥</p>
                     </div>
                   </div>
-                </MouseParallax>
+                </div>
               </div>
 
               {/* Decorative blob */}
@@ -261,7 +261,7 @@ export const Home = () => {
                   <img
                     src={course.thumbnail || `https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop&q=80`}
                     alt={course.title}
-                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                    className="w-full h-full object-contain p-4 transform group-hover:scale-110 transition-transform duration-700"
                     loading="lazy"
                     onError={(e) => {
                       if (e.target.src.includes('unsplash')) {
@@ -277,10 +277,10 @@ export const Home = () => {
                   {/* Level Badge */}
                   <div className="absolute top-5 left-5 z-20">
                     <span className={`px-4 py-2 text-xs font-bold rounded-xl backdrop-blur-md shadow-xl uppercase tracking-wider ${course.level === 'beginner'
-                        ? 'bg-green-500/95 text-white border border-green-400/50'
-                        : course.level === 'intermediate'
-                          ? 'bg-blue-500/95 text-white border border-blue-400/50'
-                          : 'bg-purple-500/95 text-white border border-purple-400/50'
+                      ? 'bg-green-500/95 text-white border border-green-400/50'
+                      : course.level === 'intermediate'
+                        ? 'bg-blue-500/95 text-white border border-blue-400/50'
+                        : 'bg-purple-500/95 text-white border border-purple-400/50'
                       }`}>
                       {course.level}
                     </span>
