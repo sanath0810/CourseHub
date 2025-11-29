@@ -196,7 +196,7 @@ export const CourseCatalog = () => {
                       className="group border-0 shadow-md dark:shadow-lg hover:shadow-2xl hover:shadow-primary-500/20 dark:hover:shadow-primary-500/30 transition-all duration-500 overflow-hidden rounded-2xl bg-white dark:bg-gray-800 h-full flex flex-col cursor-pointer transform hover:-translate-y-1"
                       onClick={() => navigate(`/courses/${course.id}`)}
                     >
-                      <div className="relative h-64 overflow-hidden bg-gradient-to-br from-primary-100 to-secondary-100 dark:from-primary-900/30 dark:to-secondary-900/30">
+                      <div className="relative h-64 overflow-hidden bg-gradient-to-br from-primary-100 to-secondary-100 dark:from-gray-800 dark:to-gray-900">
                         {/* Image with better fallback */}
                         <img
                           src={course.thumbnail || `https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop&q=80`}
@@ -217,10 +217,10 @@ export const CourseCatalog = () => {
                         {/* Level Badge */}
                         <div className="absolute top-4 left-4 z-20">
                           <span className={`px-3 py-1.5 text-xs font-bold rounded-lg backdrop-blur-md shadow-lg uppercase tracking-wide ${course.level === 'beginner'
-                              ? 'bg-green-500/90 text-white'
-                              : course.level === 'intermediate'
-                                ? 'bg-blue-500/90 text-white'
-                                : 'bg-purple-500/90 text-white'
+                            ? 'bg-green-500/90 text-white'
+                            : course.level === 'intermediate'
+                              ? 'bg-blue-500/90 text-white'
+                              : 'bg-purple-500/90 text-white'
                             }`}>
                             {course.level}
                           </span>
