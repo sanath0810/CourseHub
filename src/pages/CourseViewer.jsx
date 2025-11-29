@@ -11,7 +11,7 @@ export const CourseViewer = () => {
   const { id } = useParams();
   const courseId = parseInt(id);
   const { markVideoCompleted, getCourseProgress, isVideoCompleted, isModuleCompleted } = useProgress();
-  
+
   const [course, setCourse] = useState(null);
   const [currentModule, setCurrentModule] = useState(0);
   const [currentLesson, setCurrentLesson] = useState(0);
@@ -146,7 +146,8 @@ export const CourseViewer = () => {
           modestbranding: 1,
           rel: 0,
           playsinline: 1,
-          autoplay: 1
+          autoplay: 1,
+          origin: window.location.origin,
         },
         events: {
           onReady: () => {
@@ -214,11 +215,11 @@ export const CourseViewer = () => {
     if (!currentLessonData) return;
 
     const wasCompleted = isVideoCompleted(courseId, currentModuleData.id, currentLessonData.id);
-    
+
     if (!wasCompleted) {
       markVideoCompleted(courseId, currentModuleData.id, currentLessonData.id);
       toast.success('Video completed! 🎉');
-      
+
       // Check if this completion finished the course
       const updatedProgress = getCourseProgress(courseId);
       if (updatedProgress.courseCompleted && !showCongratulations) {
@@ -310,7 +311,7 @@ export const CourseViewer = () => {
             </div>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-3">
-            <div 
+            <div
               className="bg-blue-600 h-3 rounded-full transition-all duration-300"
               style={{ width: `${progress.percentage}%` }}
             ></div>
@@ -342,7 +343,7 @@ export const CourseViewer = () => {
                     </div>
                   )}
                 </div>
-                
+
                 {/* Video Info */}
                 <div className="p-6">
                   <div className="flex items-center justify-between mb-4">
@@ -440,11 +441,10 @@ export const CourseViewer = () => {
                       {expandedModuleIndex === moduleIndex && (
                         <div className="divide-y divide-gray-100">
                           {module.lessons.map((lesson, lessonIndex) => (
-                            <div key={lesson.id} className={`p-3 hover:bg-gray-50 transition-colors ${
-                              currentModule === moduleIndex && currentLesson === lessonIndex
+                            <div key={lesson.id} className={`p-3 hover:bg-gray-50 transition-colors ${currentModule === moduleIndex && currentLesson === lessonIndex
                                 ? 'bg-blue-50 border-r-2 border-blue-600'
                                 : ''
-                            }`}>
+                              }`}>
                               <div className="flex items-center justify-between">
                                 <button
                                   onClick={() => navigateToLesson(moduleIndex, lessonIndex)}
