@@ -28,7 +28,7 @@ const Checkout = () => {
   const total = subtotal + tax;
 
   const handlePay = () => {
-    navigate('/payment', { state: { amount: total } });
+    navigate('/payment', { state: { amount: total, cartItems } });
   };
 
   return (

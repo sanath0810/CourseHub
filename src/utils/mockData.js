@@ -2,7 +2,7 @@
 import { generateCourses, getCuratedThumbnail } from './videoPool';
 import { sanitizeCoursePrice } from './helpers';
 
-export const MOCK_COURSES = [
+export const INITIAL_COURSES = [
   {
     id: 1,
     title: 'React Fundamentals',
@@ -1266,32 +1266,38 @@ export const MOCK_COURSES = [
 ];
 
 // Append additional auto-generated courses (10 more) with the same structure
-MOCK_COURSES.push(
+INITIAL_COURSES.push(
   ...generateCourses(7, 10, 25, 121)
 );
 
 // Fill missing thumbnails for all courses using curated thumbnails based on title/category (logos when possible)
-for (const course of MOCK_COURSES) {
+for (const course of INITIAL_COURSES) {
   if (!course.thumbnail) {
     course.thumbnail = getCuratedThumbnail(course.title, course.category, course.id);
   }
 }
 
 // Guarantee a solid image for Photography Masterclass specifically
-for (const course of MOCK_COURSES) {
+for (const course of INITIAL_COURSES) {
   if (/photography masterclass/i.test(course.title)) {
     course.thumbnail = `https://loremflickr.com/640/360/${encodeURIComponent('photography,camera,studio,portrait,lighting')}?lock=${course.id}`;
   }
 }
 
 // Enforce price cap: no course price should exceed 499
-for (const course of MOCK_COURSES) {
+for (const course of INITIAL_COURSES) {
   if (typeof course.price === 'number' && course.price > 499) {
     course.price = 499;
   }
 }
 
-export const MOCK_ENROLLMENTS = [
+
+
+// Initialize MOCK_COURSES from localStorage or use INITIAL_COURSES
+const storedCourses = localStorage.getItem('coursehub_courses');
+export const MOCK_COURSES = storedCourses ? JSON.parse(storedCourses) : INITIAL_COURSES;
+
+export const INITIAL_ENROLLMENTS = [
   {
     id: 1,
     courseId: 1,
@@ -1324,7 +1330,12 @@ export const MOCK_ENROLLMENTS = [
     lastName: 'Educator',
     instructorAvatar: null
   }
+
 ];
+
+// Initialize MOCK_ENROLLMENTS from localStorage or use INITIAL_ENROLLMENTS
+const storedEnrollments = localStorage.getItem('coursehub_enrollments');
+export const MOCK_ENROLLMENTS = storedEnrollments ? JSON.parse(storedEnrollments) : INITIAL_ENROLLMENTS;
 
 export const MOCK_ASSIGNMENTS = [
   {
@@ -1449,4 +1460,50 @@ export const getMyCourses = (userId, params = {}) => {
 
 export const getCourseAssignments = (courseId) => {
   return MOCK_ASSIGNMENTS.filter(assignment => assignment.courseId == courseId);
+};
+
+export const saveCourse = (course) => {
+  // Generate a new ID if not provided
+  if (!course.id) {
+    const maxId = Math.max(...MOCK_COURSES.map(c => c.id), 0);
+    course.id = maxId + 1;
+  }
+  
+  // Add default fields if missing
+  const newCourse = {
+    createdAt: new Date().toISOString(),
+    enrollmentCount: 0,
+    modules: [],
+    thumbnail: null,
+    status: 'published',
+    ...course
+  };
+
+  MOCK_COURSES.push(newCourse);
+  localStorage.setItem('coursehub_courses', JSON.stringify(MOCK_COURSES));
+  return newCourse;
+};
+
+export const saveEnrollment = (enrollment) => {
+  // Check if already enrolled
+  const exists = MOCK_ENROLLMENTS.some(
+    e => e.courseId === enrollment.courseId && e.studentId === enrollment.studentId
+  );
+  
+  if (exists) return;
+
+  // Generate ID
+  const maxId = Math.max(...MOCK_ENROLLMENTS.map(e => e.id), 0);
+  
+  const newEnrollment = {
+    id: maxId + 1,
+    progress: 0,
+    enrolledAt: new Date().toISOString(),
+    completedAt: null,
+    ...enrollment
+  };
+
+  MOCK_ENROLLMENTS.push(newEnrollment);
+  localStorage.setItem('coursehub_enrollments', JSON.stringify(MOCK_ENROLLMENTS));
+  return newEnrollment;
 };

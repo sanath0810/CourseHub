@@ -6,6 +6,7 @@ import { getCourses } from '../utils/mockData';
 import { Card, CardContent } from '../components/Card';
 import TodoList from '../components/TodoList';
 import { SEO } from '../components/SEO';
+import MouseParallax from '../components/MouseParallax';
 
 export const Home = () => {
   const { isAuthenticated, user } = useAuth();
@@ -31,28 +32,28 @@ export const Home = () => {
         keywords="online courses, learning, education, skills, training, e-learning"
       />
       {/* Navigation */}
-      <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/80 dark:bg-gray-800/80 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-5'}`}>
+      <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/80 dark:bg-gray-900/90 backdrop-blur-md shadow-sm py-3 border-b border-gray-200 dark:border-white/20' : 'bg-transparent py-5'}`}>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-2">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-600 to-secondary-500 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-primary-500/30">
                 C
               </div>
-              <h1 className={`text-2xl font-bold tracking-tight ${scrolled ? 'text-gray-900' : 'text-gray-900'}`}>
+              <h1 className={`text-2xl font-bold tracking-tight ${scrolled ? 'text-gray-900 dark:text-white' : 'text-gray-900 dark:text-white'}`}>
                 Course<span className="text-primary-600">Hub</span>
               </h1>
             </div>
 
             <div className="hidden md:flex items-center gap-8">
-              <Link to="/courses" className="text-gray-600 hover:text-primary-600 font-medium transition-colors">Explore</Link>
-              <Link to="/mentors" className="text-gray-600 hover:text-primary-600 font-medium transition-colors">Mentors</Link>
-              <Link to="/pricing" className="text-gray-600 hover:text-primary-600 font-medium transition-colors">Pricing</Link>
+              <Link to="/courses" className="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors">Explore</Link>
+              <Link to="/mentors" className="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors">Mentors</Link>
+              <Link to="/pricing" className="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors">Pricing</Link>
             </div>
 
             <div className="flex items-center gap-4">
               {isAuthenticated ? (
                 <>
-                  <span className="hidden sm:block text-gray-700 font-medium">Hi, {user.firstName}</span>
+                  <span className="hidden sm:block text-gray-700 dark:text-white font-medium">Hi, {user.firstName}</span>
                   <Link
                     to="/dashboard"
                     className="bg-gray-900 text-white px-5 py-2.5 rounded-full text-sm font-medium hover:bg-gray-800 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
@@ -64,7 +65,7 @@ export const Home = () => {
                 <>
                   <Link
                     to="/login"
-                    className="hidden sm:block text-gray-700 hover:text-primary-600 font-medium transition-colors"
+                    className="hidden sm:block text-gray-700 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors"
                   >
                     Sign In
                   </Link>
@@ -99,14 +100,14 @@ export const Home = () => {
                 <span className="text-sm font-medium text-gray-600">New courses added weekly</span>
               </div>
 
-              <h1 className="text-5xl lg:text-7xl font-bold text-gray-900 leading-[1.1] mb-6 animate-fade-in-up delay-100">
+              <h1 className="text-5xl lg:text-7xl font-bold text-gray-900 dark:text-white leading-[1.1] mb-6 animate-fade-in-up delay-100">
                 Master New Skills <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 via-purple-600 to-secondary-500">
                   Without Limits
                 </span>
               </h1>
 
-              <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto lg:mx-0 leading-relaxed animate-fade-in-up delay-200">
+              <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto lg:mx-0 leading-relaxed animate-fade-in-up delay-200">
                 Unlock your potential with expert-led courses in coding, design, business, and more. Join a global community of learners today.
               </p>
 
@@ -128,7 +129,7 @@ export const Home = () => {
                     <div className="flex text-yellow-500">
                       {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}
                     </div>
-                    <p className="text-sm text-gray-600 font-medium">500+ Reviews</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-300 font-medium">500+ Reviews</p>
                   </div>
                 </div>
               </div>
@@ -139,29 +140,39 @@ export const Home = () => {
                 <img
                   src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1471&q=80"
                   alt="Students learning"
-                  className="rounded-xl w-full object-cover h-[400px] lg:h-[500px]"
+                  className="rounded-xl w-full object-cover h-[400px] lg:h-[500px] border-4 border-white dark:border-gray-700"
                 />
 
-                {/* Floating Cards */}
-                <div className="absolute -left-8 top-10 bg-white p-4 rounded-xl shadow-xl border border-gray-100 flex items-center gap-3 animate-bounce delay-700">
-                  <div className="bg-green-100 p-2 rounded-lg">
-                    <CheckCircle className="w-6 h-6 text-green-600" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-gray-500 font-medium">Course Completed</p>
-                    <p className="text-sm font-bold text-gray-900">React Advanced</p>
-                  </div>
-                </div>
+                {/* Mouse Interactive Overlay */}
+                <MouseParallax strength={30} className="absolute inset-0 pointer-events-none">
+                  <div className="absolute top-10 right-10 w-20 h-20 bg-primary-500/20 rounded-full blur-xl" />
+                  <div className="absolute bottom-10 left-10 w-32 h-32 bg-secondary-500/20 rounded-full blur-xl" />
+                </MouseParallax>
 
-                <div className="absolute -right-8 bottom-20 bg-white p-4 rounded-xl shadow-xl border border-gray-100 flex items-center gap-3 animate-bounce delay-1000">
-                  <div className="bg-orange-100 p-2 rounded-lg">
-                    <Zap className="w-6 h-6 text-orange-600" />
+                {/* Floating Cards */}
+                <MouseParallax strength={-20} className="absolute -left-8 top-10 z-20">
+                  <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 flex items-center gap-3 animate-bounce delay-700">
+                    <div className="bg-green-100 p-2 rounded-lg">
+                      <CheckCircle className="w-6 h-6 text-green-600" />
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Course Completed</p>
+                      <p className="text-sm font-bold text-gray-900 dark:text-white">React Advanced</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-xs text-gray-500 font-medium">Daily Streak</p>
-                    <p className="text-sm font-bold text-gray-900">12 Days 🔥</p>
+                </MouseParallax>
+
+                <MouseParallax strength={-15} className="absolute -right-8 bottom-20 z-20">
+                  <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 flex items-center gap-3 animate-bounce delay-1000">
+                    <div className="bg-orange-100 p-2 rounded-lg">
+                      <Zap className="w-6 h-6 text-orange-600" />
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Daily Streak</p>
+                      <p className="text-sm font-bold text-gray-900 dark:text-white">12 Days 🔥</p>
+                    </div>
                   </div>
-                </div>
+                </MouseParallax>
               </div>
 
               {/* Decorative blob */}
@@ -172,7 +183,7 @@ export const Home = () => {
       </div>
 
       {/* Stats Section */}
-      <div className="py-10 bg-white border-y border-gray-100">
+      <div className="py-10 bg-white dark:bg-gray-900 border-y border-gray-100 dark:border-gray-800">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
@@ -186,8 +197,8 @@ export const Home = () => {
                   <stat.icon className="w-6 h-6" />
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-gray-900">{stat.value}</div>
-                  <div className="text-sm text-gray-500 font-medium">{stat.label}</div>
+                  <div className="text-2xl font-bold text-gray-900 dark:text-white">{stat.value}</div>
+                  <div className="text-sm text-gray-500 dark:text-gray-400 font-medium">{stat.label}</div>
                 </div>
               </div>
             ))}
@@ -196,12 +207,12 @@ export const Home = () => {
       </div>
 
       {/* Popular Categories */}
-      <div className="py-24 bg-gray-50">
+      <div className="py-24 bg-gray-50 dark:bg-gray-800/50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-end mb-12">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Explore Categories</h2>
-              <p className="text-gray-600 max-w-xl">Find the perfect course to upgrade your skills and advance your career path.</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">Explore Categories</h2>
+              <p className="text-gray-600 dark:text-gray-400 max-w-xl">Find the perfect course to upgrade your skills and advance your career path.</p>
             </div>
             <Link to="/courses" className="hidden md:flex items-center text-primary-600 font-semibold hover:text-primary-700">
               View All Categories <ArrowRight className="ml-2 w-4 h-4" />
@@ -220,12 +231,12 @@ export const Home = () => {
               <Link
                 key={cat.name}
                 to={`/courses?category=${encodeURIComponent(cat.name)}`}
-                className="group bg-white p-6 rounded-2xl shadow-sm hover:shadow-md border border-gray-100 hover:border-primary-200 transition-all text-center"
+                className="group bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm hover:shadow-md border border-gray-100 dark:border-gray-700 hover:border-primary-200 dark:hover:border-primary-500 transition-all text-center"
               >
                 <div className={`w-12 h-12 mx-auto rounded-full flex items-center justify-center text-2xl mb-4 ${cat.color} group-hover:scale-110 transition-transform`}>
                   {cat.icon}
                 </div>
-                <h3 className="font-semibold text-gray-900 group-hover:text-primary-600 transition-colors">{cat.name}</h3>
+                <h3 className="font-semibold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">{cat.name}</h3>
               </Link>
             ))}
           </div>
@@ -262,16 +273,15 @@ export const Home = () => {
                   />
                   {/* Enhanced gradient overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent group-hover:from-black/80 transition-all duration-300" />
-                  
+
                   {/* Level Badge */}
                   <div className="absolute top-5 left-5 z-20">
-                    <span className={`px-4 py-2 text-xs font-bold rounded-xl backdrop-blur-md shadow-xl uppercase tracking-wider ${
-                      course.level === 'beginner' 
-                        ? 'bg-green-500/95 text-white border border-green-400/50' 
-                        : course.level === 'intermediate' 
-                        ? 'bg-blue-500/95 text-white border border-blue-400/50' 
-                        : 'bg-purple-500/95 text-white border border-purple-400/50'
-                    }`}>
+                    <span className={`px-4 py-2 text-xs font-bold rounded-xl backdrop-blur-md shadow-xl uppercase tracking-wider ${course.level === 'beginner'
+                        ? 'bg-green-500/95 text-white border border-green-400/50'
+                        : course.level === 'intermediate'
+                          ? 'bg-blue-500/95 text-white border border-blue-400/50'
+                          : 'bg-purple-500/95 text-white border border-purple-400/50'
+                      }`}>
                       {course.level}
                     </span>
                   </div>
@@ -285,7 +295,7 @@ export const Home = () => {
 
                   {/* Hover overlay with play button */}
                   <div className="absolute inset-0 bg-primary-600/95 dark:bg-primary-700/95 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10">
-                    <Link 
+                    <Link
                       to={`/courses/${course.id}`}
                       className="flex flex-col items-center gap-3 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300"
                     >
@@ -296,7 +306,7 @@ export const Home = () => {
                     </Link>
                   </div>
                 </div>
-                
+
                 <CardContent className="p-6 flex-1 flex flex-col">
                   {/* Category with icon */}
                   <div className="flex items-center gap-2.5 mb-4">
@@ -322,9 +332,9 @@ export const Home = () => {
                   <div className="flex items-center gap-2 mb-5">
                     <div className="flex items-center gap-0.5">
                       {[...Array(5)].map((_, i) => (
-                        <Star 
-                          key={i} 
-                          className={`w-4 h-4 ${i < 4 ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300 dark:text-gray-600'}`} 
+                        <Star
+                          key={i}
+                          className={`w-4 h-4 ${i < 4 ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300 dark:text-gray-600'}`}
                         />
                       ))}
                     </div>
@@ -352,7 +362,7 @@ export const Home = () => {
                         <p className="text-xs text-gray-500 dark:text-gray-400">Expert Instructor</p>
                       </div>
                     </div>
-                    <Link 
+                    <Link
                       to={`/courses/${course.id}`}
                       className="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold rounded-lg transition-colors shadow-md hover:shadow-lg"
                     >

@@ -2,10 +2,13 @@ import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { SEO } from '../components/SEO';
 import { CreditCard, Lock, CheckCircle } from 'lucide-react';
+import { saveEnrollment } from '../utils/mockData';
+import { useAuth } from '../contexts/AuthContext';
 
 const Payment = () => {
     const location = useLocation();
     const navigate = useNavigate();
+    const { user } = useAuth();
     const [amount, setAmount] = useState(0);
     const [isProcessing, setIsProcessing] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
@@ -22,6 +25,24 @@ const Payment = () => {
 
         // Simulate payment processing
         setTimeout(() => {
+            // Enroll in courses
+            if (location.state?.cartItems && user) {
+                location.state.cartItems.forEach(item => {
+                    saveEnrollment({
+                        courseId: item.id,
+                        studentId: user.id,
+                        title: item.title,
+                        description: 'Enrolled via checkout',
+                        thumbnail: item.image,
+                        level: 'beginner',
+                        price: item.price,
+                        firstName: item.instructor,
+                        lastName: '',
+                        instructorAvatar: null
+                    });
+                });
+            }
+
             setIsProcessing(false);
             setIsSuccess(true);
 

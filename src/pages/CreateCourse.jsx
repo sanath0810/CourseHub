@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { ArrowLeft, Upload } from 'lucide-react';
+import { saveCourse } from '../utils/mockData';
+import { useAuth } from '../contexts/AuthContext';
 import { Card, CardContent, CardHeader } from '../components/Card';
 import { Button } from '../components/Button';
 import { Input } from '../components/Input';
@@ -10,6 +12,7 @@ import { SEO } from '../components/SEO';
 
 export const CreateCourse = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [loading, setLoading] = useState(false);
 
   const {
@@ -18,11 +21,19 @@ export const CreateCourse = () => {
     formState: { errors }
   } = useForm();
 
-  const onSubmit = async () => {
+  const onSubmit = async (data) => {
     setLoading(true);
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 1000));
-    
+
+    saveCourse({
+      ...data,
+      instructorId: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      instructorAvatar: user.avatar || null
+    });
+
     toast.success('Course created successfully!');
     navigate('/instructor/courses');
     setLoading(false);
