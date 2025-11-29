@@ -17,7 +17,7 @@ export const CreateCourse = () => {
     formState: { errors }
   } = useForm();
 
-  const onSubmit = async (data) => {
+  const onSubmit = async () => {
     setLoading(true);
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 1000));

@@ -32,7 +32,9 @@ export const Profile = () => {
       } else {
         toast.error(result.error);
       }
-    } catch (error) {
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error(e);
       toast.error('Failed to update profile');
     } finally {
       setLoading(false);

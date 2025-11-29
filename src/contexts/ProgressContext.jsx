@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState, useEffect } from 'react';
 import { getCourseById } from '../utils/mockData';
 
@@ -14,8 +15,14 @@ export const useProgress = () => {
 export const ProgressProvider = ({ children }) => {
   // Store progress data in localStorage for persistence
   const [progressData, setProgressData] = useState(() => {
-    const saved = localStorage.getItem('courseProgress');
-    return saved ? JSON.parse(saved) : {};
+    try {
+      const saved = localStorage.getItem('courseProgress');
+      return saved ? JSON.parse(saved) : {};
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error('Failed to parse courseProgress', err);
+      return {};
+    }
   });
 
   // Save to localStorage whenever progressData changes

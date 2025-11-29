@@ -5,8 +5,7 @@ import { getCourses } from '../utils/mockData';
 import { Card, CardContent } from '../components/Card';
 import { Input } from '../components/Input';
 import { Button } from '../components/Button';
-import { formatDate, getCourseLevelColor } from '../utils/helpers';
-import toast from 'react-hot-toast';
+import { getCourseLevelColor } from '../utils/helpers';
 
 export const CourseCatalog = () => {
   const navigate = useNavigate();

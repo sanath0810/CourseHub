@@ -40,7 +40,9 @@ export const Register = () => {
       } else {
         toast.error(result.error);
       }
-    } catch (error) {
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error(e);
       toast.error('An unexpected error occurred');
     } finally {
       setLoading(false);

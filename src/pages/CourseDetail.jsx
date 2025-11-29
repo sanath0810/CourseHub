@@ -15,7 +15,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { getCourseById } from '../utils/mockData';
 import { Card, CardContent, CardHeader } from '../components/Card';
 import { Button } from '../components/Button';
-import { formatDate, getCourseLevelColor, formatDuration } from '../utils/helpers';
+import { getCourseLevelColor, formatDuration } from '../utils/helpers';
 import toast from 'react-hot-toast';
 
 export const CourseDetail = () => {

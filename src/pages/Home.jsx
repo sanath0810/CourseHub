@@ -4,6 +4,7 @@ import { ArrowRight, BookOpen, Users, Award, CheckCircle, Star } from 'lucide-re
 import { useAuth } from '../contexts/AuthContext';
 import { getCourses } from '../utils/mockData';
 import { Card, CardContent } from '../components/Card';
+import TodoList from '../components/TodoList';
 
 export const Home = () => {
   const { isAuthenticated, user } = useAuth();
@@ -91,6 +92,13 @@ export const Home = () => {
       </div>
 
       {/* Popular Categories */}
+          {/* Todo List (simple productivity widget) */}
+          <div className="py-12 bg-white">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <TodoList />
+            </div>
+          </div>
+
       <div className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between mb-8">

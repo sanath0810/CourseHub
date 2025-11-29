@@ -14,8 +14,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { getMyEnrollments, getMyCourses } from '../utils/mockData';
 import { Card, CardContent, CardHeader } from '../components/Card';
 import { Button } from '../components/Button';
-import { formatDate, getProgressColor, getProgressBgColor, getCourseLevelColor } from '../utils/helpers';
-import toast from 'react-hot-toast';
+import { formatDate, getProgressBgColor, getCourseLevelColor } from '../utils/helpers';
 
 export const Dashboard = () => {
   const { user, isEducator, isStudent } = useAuth();

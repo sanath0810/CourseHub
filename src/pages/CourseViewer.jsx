@@ -20,10 +20,19 @@ export const CourseViewer = () => {
   const playerRef = useRef(null);
   const playerContainerRef = useRef(null);
   const autoCompletedRef = useRef(false);
+  // When we auto-load the next video using the existing player, set this to
+  // skip the recreate/destroy cycle in the player-effect to allow seamless playback.
+  const skipPlayerRecreateRef = useRef(false);
+  const [moduleRatings, setModuleRatings] = useState({});
 
   useEffect(() => {
     const courseData = getCourseById(courseId);
     setCourse(courseData);
+    // load saved ratings for this course
+    try {
+      const raw = localStorage.getItem(`coursehub:feedback:${courseId}`);
+      if (raw) setModuleRatings(JSON.parse(raw));
+    } catch (e) { void e; }
   }, [courseId]);
 
   const progress = getCourseProgress(courseId);
@@ -109,11 +118,20 @@ export const CourseViewer = () => {
 
   // Initialize YT player when lesson changes
   useEffect(() => {
+    // If we auto-loaded the next video using loadVideoById, skip destroying
+    // and recreating the player to allow seamless playback.
+    if (skipPlayerRecreateRef.current) {
+      skipPlayerRecreateRef.current = false;
+      setVideoEnded(false);
+      autoCompletedRef.current = false;
+      return;
+    }
+
     setVideoEnded(false);
     autoCompletedRef.current = false;
     // Cleanup previous player
     if (playerRef.current) {
-      try { playerRef.current.destroy(); } catch {}
+      try { playerRef.current.destroy(); } catch (e) { void e; }
       playerRef.current = null;
     }
     const videoId = getYouTubeId(currentLessonData?.videoUrl);
@@ -131,7 +149,7 @@ export const CourseViewer = () => {
         },
         events: {
           onReady: () => {
-            try { playerRef.current?.playVideo(); } catch {}
+            try { playerRef.current?.playVideo(); } catch (e) { void e; }
           },
           onStateChange: (event) => {
             // 0 => ended
@@ -155,6 +173,24 @@ export const CourseViewer = () => {
                   }
                   const next = findNextUncompleted();
                   if (next) {
+                    // Try seamless playback using the existing player's loadVideoById
+                    const nextVideoUrl = modules?.[next.moduleIndex]?.lessons?.[next.lessonIndex]?.videoUrl;
+                    const nextVideoId = getYouTubeId(nextVideoUrl);
+                    if (playerRef.current && typeof playerRef.current.loadVideoById === 'function' && nextVideoId) {
+                      try {
+                        skipPlayerRecreateRef.current = true;
+                        playerRef.current.loadVideoById(nextVideoId);
+                        setCurrentModule(next.moduleIndex);
+                        setCurrentLesson(next.lessonIndex);
+                        setVideoEnded(false);
+                        toast('Auto-advancing to the next lesson ▶️', { duration: 2000 });
+                        return;
+                      } catch (e) {
+                        void e;
+                      }
+                    }
+
+                    // fallback: update state and allow effect to recreate the player
                     setCurrentModule(next.moduleIndex);
                     setCurrentLesson(next.lessonIndex);
                     setVideoEnded(false);
@@ -212,6 +248,17 @@ export const CourseViewer = () => {
   const navigateToLesson = (moduleIndex, lessonIndex) => {
     setCurrentModule(moduleIndex);
     setCurrentLesson(lessonIndex);
+  };
+
+  const saveModuleRating = (moduleId, rating) => {
+    setModuleRatings((prev) => {
+      const next = { ...prev, [moduleId]: rating };
+      try {
+        localStorage.setItem(`coursehub:feedback:${courseId}`, JSON.stringify(next));
+      } catch (e) { void e; }
+      return next;
+    });
+    toast.success('Thanks for your feedback!');
   };
 
   const nextLesson = () => {
@@ -414,6 +461,35 @@ export const CourseViewer = () => {
                               </div>
                             </div>
                           ))}
+                          {/* Module feedback: simple 1-5 star rating persisted to localStorage */}
+                          <div className="p-4 bg-gray-50">
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <h4 className="text-sm font-medium text-gray-900">Rate this module</h4>
+                                <p className="text-xs text-gray-500">Share feedback to help improve the course</p>
+                              </div>
+                              <div className="flex items-center gap-1">
+                                {Array.from({ length: 5 }).map((_, i) => {
+                                  const star = i + 1;
+                                  const current = moduleRatings[module.id] || 0;
+                                  return (
+                                    <button
+                                      key={star}
+                                      type="button"
+                                      aria-label={`${star} star`}
+                                      onClick={() => saveModuleRating(module.id, star)}
+                                      className={`text-2xl leading-none focus:outline-none ${current >= star ? 'text-yellow-400' : 'text-gray-300 hover:text-yellow-300'}`}
+                                    >
+                                      {current >= star ? '★' : '☆'}
+                                    </button>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                            {moduleRatings[module.id] && (
+                              <div className="mt-2 text-sm text-gray-600">Your rating: {moduleRatings[module.id]} / 5</div>
+                            )}
+                          </div>
                         </div>
                       )}
                     </div>

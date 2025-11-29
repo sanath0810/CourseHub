@@ -33,7 +33,10 @@ export const Login = () => {
       } else {
         toast.error(result.error);
       }
-    } catch (error) {
+    } catch (e) {
+      // Log error for debugging and show a friendly toast
+      // eslint-disable-next-line no-console
+      console.error(e);
       toast.error('An unexpected error occurred');
     } finally {
       setLoading(false);

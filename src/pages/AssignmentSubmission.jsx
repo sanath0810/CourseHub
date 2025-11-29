@@ -1,4 +1,4 @@
-import { useState } from 'react';
+// placeholder page — no state required yet
 import { useParams } from 'react-router-dom';
 import { Card, CardContent, CardHeader } from '../components/Card';
 import { Button } from '../components/Button';
