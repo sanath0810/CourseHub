@@ -21,30 +21,92 @@ export const useAuth = () => {
   return context;
 };
 
+// Cache key for localStorage
+const USER_CACHE_KEY = 'coursehub_user_cache';
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Helper to get cached user data
+  const getCachedUser = (uid) => {
+    try {
+      const cached = localStorage.getItem(USER_CACHE_KEY);
+      if (cached) {
+        const { data, timestamp, userId } = JSON.parse(cached);
+        const isExpired = Date.now() - timestamp > CACHE_DURATION;
+        if (!isExpired && userId === uid) {
+          return data;
+        }
+      }
+    } catch (e) {
+      console.error('Cache read error:', e);
+    }
+    return null;
+  };
+
+  // Helper to set cached user data
+  const setCachedUser = (uid, userData) => {
+    try {
+      localStorage.setItem(USER_CACHE_KEY, JSON.stringify({
+        data: userData,
+        timestamp: Date.now(),
+        userId: uid
+      }));
+    } catch (e) {
+      console.error('Cache write error:', e);
+    }
+  };
+
+  // Helper to clear cache
+  const clearCache = () => {
+    try {
+      localStorage.removeItem(USER_CACHE_KEY);
+    } catch (e) {
+      console.error('Cache clear error:', e);
+    }
+  };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
-        // Fetch user profile from Firestore
-        const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
-        const userData = userDoc.exists() ? userDoc.data() : {};
+        // Try to get cached data first
+        const cachedData = getCachedUser(firebaseUser.uid);
 
-        setUser({
-          id: firebaseUser.uid,
-          email: firebaseUser.email,
-          firstName: userData.firstName || firebaseUser.displayName?.split(' ')[0] || 'User',
-          lastName: userData.lastName || firebaseUser.displayName?.split(' ')[1] || '',
-          avatar: firebaseUser.photoURL,
-          role: userData.role || 'student',
-          bio: userData.bio || ''
-        });
+        if (cachedData) {
+          // Use cached data immediately for fast load
+          setUser(cachedData);
+          setLoading(false);
+        } else {
+          // Fetch from Firestore only if no cache
+          try {
+            const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
+            const userData = userDoc.exists() ? userDoc.data() : {};
+
+            const userProfile = {
+              id: firebaseUser.uid,
+              email: firebaseUser.email,
+              firstName: userData.firstName || firebaseUser.displayName?.split(' ')[0] || 'User',
+              lastName: userData.lastName || firebaseUser.displayName?.split(' ')[1] || '',
+              avatar: firebaseUser.photoURL,
+              role: userData.role || 'student',
+              bio: userData.bio || ''
+            };
+
+            setUser(userProfile);
+            setCachedUser(firebaseUser.uid, userProfile);
+          } catch (error) {
+            console.error('Error fetching user data:', error);
+          } finally {
+            setLoading(false);
+          }
+        }
       } else {
         setUser(null);
+        clearCache();
+        setLoading(false);
       }
-      setLoading(false);
     });
 
     return unsubscribe;
@@ -73,14 +135,27 @@ export const AuthProvider = ({ children }) => {
       if (!userDoc.exists()) {
         // First time Google sign-in, create user profile with default role
         const [firstName = 'User', lastName = ''] = (result.user.displayName || 'User').split(' ');
-        await setDoc(doc(db, 'users', result.user.uid), {
+        const newUserData = {
           email: result.user.email,
           firstName,
           lastName,
-          role: 'student', // Default role for Google sign-in
+          role: 'student',
           avatar: result.user.photoURL,
           bio: '',
           createdAt: new Date().toISOString()
+        };
+
+        await setDoc(doc(db, 'users', result.user.uid), newUserData);
+
+        // Cache the new user data
+        setCachedUser(result.user.uid, {
+          id: result.user.uid,
+          email: result.user.email,
+          firstName,
+          lastName,
+          role: 'student',
+          avatar: result.user.photoURL,
+          bio: ''
         });
       }
 
@@ -102,8 +177,7 @@ export const AuthProvider = ({ children }) => {
         displayName: `${firstName} ${lastName}`
       });
 
-      // Save user profile to Firestore
-      await setDoc(doc(db, 'users', userCredential.user.uid), {
+      const newUserData = {
         email,
         firstName,
         lastName,
@@ -111,10 +185,13 @@ export const AuthProvider = ({ children }) => {
         avatar: null,
         bio: '',
         createdAt: new Date().toISOString()
-      });
+      };
 
-      // Update local state
-      setUser({
+      // Save user profile to Firestore
+      await setDoc(doc(db, 'users', userCredential.user.uid), newUserData);
+
+      // Update local state and cache
+      const userProfile = {
         id: userCredential.user.uid,
         email: userCredential.user.email,
         firstName,
@@ -122,7 +199,10 @@ export const AuthProvider = ({ children }) => {
         role,
         avatar: null,
         bio: ''
-      });
+      };
+
+      setUser(userProfile);
+      setCachedUser(userCredential.user.uid, userProfile);
 
       return { success: true };
     } catch (error) {
@@ -137,6 +217,7 @@ export const AuthProvider = ({ children }) => {
     try {
       await signOut(auth);
       setUser(null);
+      clearCache();
     } catch (error) {
       console.error("Failed to log out", error);
     }
@@ -157,10 +238,13 @@ export const AuthProvider = ({ children }) => {
       // Update Firestore document
       await setDoc(doc(db, 'users', auth.currentUser.uid), {
         ...profileData,
-        email: user.email // Keep email unchanged
+        email: user.email
       }, { merge: true });
 
-      setUser(prev => ({ ...prev, ...profileData }));
+      const updatedUser = { ...user, ...profileData };
+      setUser(updatedUser);
+      setCachedUser(auth.currentUser.uid, updatedUser);
+
       return { success: true };
     } catch (error) {
       return { success: false, error: error.message };
