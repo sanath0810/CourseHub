@@ -196,12 +196,12 @@ export const CourseCatalog = () => {
                       className="group border-0 shadow-md dark:shadow-lg hover:shadow-2xl hover:shadow-primary-500/20 dark:hover:shadow-primary-500/30 transition-all duration-500 overflow-hidden rounded-2xl bg-white dark:bg-gray-800 h-full flex flex-col cursor-pointer transform hover:-translate-y-1"
                       onClick={() => navigate(`/courses/${course.id}`)}
                     >
-                      <div className="relative h-56 overflow-hidden bg-gradient-to-br from-primary-100 to-secondary-100 dark:from-primary-900/30 dark:to-secondary-900/30">
+                      <div className="relative h-64 overflow-hidden bg-gradient-to-br from-primary-100 to-secondary-100 dark:from-primary-900/30 dark:to-secondary-900/30">
                         {/* Image with better fallback */}
                         <img
                           src={course.thumbnail || `https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop&q=80`}
                           alt={course.title}
-                          className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                          className="w-full h-full object-contain p-4 transform group-hover:scale-110 transition-transform duration-700"
                           loading="lazy"
                           onError={(e) => {
                             if (e.target.src.includes('unsplash')) {
@@ -213,16 +213,15 @@ export const CourseCatalog = () => {
                         />
                         {/* Gradient overlay */}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 group-hover:from-black/70 transition-all duration-300" />
-                        
+
                         {/* Level Badge */}
                         <div className="absolute top-4 left-4 z-20">
-                          <span className={`px-3 py-1.5 text-xs font-bold rounded-lg backdrop-blur-md shadow-lg uppercase tracking-wide ${
-                            course.level === 'beginner' 
-                              ? 'bg-green-500/90 text-white' 
-                              : course.level === 'intermediate' 
-                              ? 'bg-blue-500/90 text-white' 
-                              : 'bg-purple-500/90 text-white'
-                          }`}>
+                          <span className={`px-3 py-1.5 text-xs font-bold rounded-lg backdrop-blur-md shadow-lg uppercase tracking-wide ${course.level === 'beginner'
+                              ? 'bg-green-500/90 text-white'
+                              : course.level === 'intermediate'
+                                ? 'bg-blue-500/90 text-white'
+                                : 'bg-purple-500/90 text-white'
+                            }`}>
                             {course.level}
                           </span>
                         </div>
@@ -267,9 +266,9 @@ export const CourseCatalog = () => {
                         <div className="flex items-center gap-1 mb-4">
                           <div className="flex items-center gap-0.5">
                             {[...Array(5)].map((_, i) => (
-                              <Star 
-                                key={i} 
-                                className={`w-4 h-4 ${i < 4 ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300 dark:text-gray-600'}`} 
+                              <Star
+                                key={i}
+                                className={`w-4 h-4 ${i < 4 ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300 dark:text-gray-600'}`}
                               />
                             ))}
                           </div>
@@ -320,8 +319,8 @@ export const CourseCatalog = () => {
                           key={i + 1}
                           onClick={() => setCurrentPage(i + 1)}
                           className={`w-10 h-10 rounded-full font-medium transition-all ${currentPage === i + 1
-                              ? 'bg-primary-600 text-white shadow-md shadow-primary-500/30'
-                              : 'text-gray-600 hover:bg-gray-50'
+                            ? 'bg-primary-600 text-white shadow-md shadow-primary-500/30'
+                            : 'text-gray-600 hover:bg-gray-50'
                             }`}
                         >
                           {i + 1}
