@@ -101,7 +101,7 @@ export const Dashboard = () => {
   }
 
   return (
-    <div className="p-6">
+    <div className="p-6 bg-gray-50 dark:bg-gray-900 min-h-screen">
       <SEO
         title="Dashboard"
         description="View your course progress, enrollments, and learning statistics"
@@ -109,10 +109,10 @@ export const Dashboard = () => {
       />
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
           Welcome back, {user.firstName}!
         </h1>
-        <p className="text-gray-600 mt-1">
+        <p className="text-gray-600 dark:text-gray-400 mt-1">
           Here's what's happening with your {isEducator ? 'courses' : 'learning'} today.
         </p>
       </div>

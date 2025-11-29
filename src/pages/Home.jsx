@@ -24,14 +24,14 @@ export const Home = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 overflow-x-hidden">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 overflow-x-hidden">
       <SEO
         title="CourseHub - Learn New Skills Online"
         description="Discover thousands of high-quality courses from expert instructors. Advance your career and learn new skills at your own pace."
         keywords="online courses, learning, education, skills, training, e-learning"
       />
       {/* Navigation */}
-      <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/80 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-5'}`}>
+      <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/80 dark:bg-gray-800/80 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-5'}`}>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-2">
@@ -233,68 +233,131 @@ export const Home = () => {
       </div>
 
       {/* Featured Courses */}
-      <div className="py-24 bg-white relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-1/3 h-full bg-gray-50/50 -skew-x-12 -z-10" />
+      <div className="py-24 bg-white dark:bg-gray-900 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-1/3 h-full bg-gray-50/50 dark:bg-gray-800/50 -skew-x-12 -z-10" />
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <span className="text-primary-600 font-semibold tracking-wider uppercase text-sm">Top Rated</span>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mt-2 mb-4">Featured Courses</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Handpicked by our experts, these courses are trending among learners worldwide.</p>
+            <span className="inline-block px-4 py-1.5 bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 font-semibold tracking-wider uppercase text-xs rounded-full mb-4">Top Rated</span>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mt-2 mb-4">Featured Courses</h2>
+            <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">Handpicked by our experts, these courses are trending among learners worldwide.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {featured.map((course) => (
-              <Card key={course.id} className="group border-0 shadow-lg shadow-gray-200/50 hover:shadow-xl hover:shadow-primary-500/10 transition-all duration-300 overflow-hidden rounded-2xl bg-white h-full flex flex-col">
-                <div className="relative h-56 overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <Link to={`/courses/${course.id}`} className="bg-white/20 backdrop-blur-md border border-white/50 text-white px-6 py-2 rounded-full font-medium hover:bg-white hover:text-primary-600 transition-colors transform translate-y-4 group-hover:translate-y-0 duration-300">
-                      View Course
-                    </Link>
-                  </div>
+              <Card key={course.id} className="group border-0 shadow-xl shadow-gray-200/50 dark:shadow-gray-900/50 hover:shadow-2xl hover:shadow-primary-500/30 dark:hover:shadow-primary-500/40 transition-all duration-500 overflow-hidden rounded-3xl bg-white dark:bg-gray-800 h-full flex flex-col transform hover:-translate-y-2">
+                <div className="relative h-64 overflow-hidden bg-gradient-to-br from-primary-100 to-secondary-100 dark:from-primary-900/30 dark:to-secondary-900/30">
+                  {/* Image with better quality */}
                   <img
-                    src={course.thumbnail || `https://source.unsplash.com/random/800x600?${course.category}`}
+                    src={course.thumbnail || `https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop&q=80`}
                     alt={course.title}
                     className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                    loading="lazy"
                     onError={(e) => {
-                      e.target.src = 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80';
+                      if (e.target.src.includes('unsplash')) {
+                        e.target.src = `https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop&q=80`;
+                      } else {
+                        e.target.style.display = 'none';
+                      }
                     }}
                   />
-                  <div className="absolute top-4 left-4 z-20">
-                    <span className="px-3 py-1 text-xs font-bold rounded-full bg-white/90 text-primary-700 shadow-sm uppercase tracking-wide">
+                  {/* Enhanced gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent group-hover:from-black/80 transition-all duration-300" />
+                  
+                  {/* Level Badge */}
+                  <div className="absolute top-5 left-5 z-20">
+                    <span className={`px-4 py-2 text-xs font-bold rounded-xl backdrop-blur-md shadow-xl uppercase tracking-wider ${
+                      course.level === 'beginner' 
+                        ? 'bg-green-500/95 text-white border border-green-400/50' 
+                        : course.level === 'intermediate' 
+                        ? 'bg-blue-500/95 text-white border border-blue-400/50' 
+                        : 'bg-purple-500/95 text-white border border-purple-400/50'
+                    }`}>
                       {course.level}
                     </span>
                   </div>
-                  <div className="absolute bottom-4 right-4 z-20">
-                    <span className="px-3 py-1 text-sm font-bold rounded-lg bg-primary-600 text-white shadow-lg">
+
+                  {/* Price Badge */}
+                  <div className="absolute top-5 right-5 z-20">
+                    <span className="px-4 py-2 text-base font-bold rounded-xl bg-primary-600 text-white shadow-2xl backdrop-blur-sm border border-primary-400/30">
                       {course.price === 0 ? 'Free' : `$${course.price}`}
                     </span>
                   </div>
-                </div>
-                <CardContent className="p-6 flex-1 flex flex-col">
-                  <div className="flex items-center gap-2 mb-3 text-xs font-medium text-primary-600 uppercase tracking-wide">
-                    <BookOpen className="w-4 h-4" />
-                    {course.category}
+
+                  {/* Hover overlay with play button */}
+                  <div className="absolute inset-0 bg-primary-600/95 dark:bg-primary-700/95 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10">
+                    <Link 
+                      to={`/courses/${course.id}`}
+                      className="flex flex-col items-center gap-3 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300"
+                    >
+                      <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-md border-2 border-white/50 flex items-center justify-center hover:bg-white/30 transition-colors">
+                        <Play className="w-8 h-8 text-white ml-1" fill="white" />
+                      </div>
+                      <span className="text-white font-bold text-lg">View Course</span>
+                    </Link>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-primary-600 transition-colors">
+                </div>
+                
+                <CardContent className="p-6 flex-1 flex flex-col">
+                  {/* Category with icon */}
+                  <div className="flex items-center gap-2.5 mb-4">
+                    <div className="px-3 py-1.5 rounded-lg bg-primary-50 dark:bg-primary-900/30 border border-primary-100 dark:border-primary-800">
+                      <BookOpen className="w-4 h-4 text-primary-600 dark:text-primary-400" />
+                    </div>
+                    <span className="text-xs font-bold text-primary-600 dark:text-primary-400 uppercase tracking-widest">
+                      {course.category}
+                    </span>
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3 line-clamp-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors leading-tight">
                     {course.title}
                   </h3>
-                  <p className="text-gray-600 text-sm line-clamp-2 mb-6 flex-1">
+
+                  {/* Description */}
+                  <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-3 mb-5 flex-1 leading-relaxed">
                     {course.description}
                   </p>
 
-                  <div className="pt-4 border-t border-gray-100 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <img
-                        src={course.instructorAvatar || `https://ui-avatars.com/api/?name=${course.firstName}+${course.lastName}&background=random`}
-                        alt={course.firstName}
-                        className="w-8 h-8 rounded-full border border-gray-200"
-                      />
-                      <span className="text-sm font-medium text-gray-700">{course.firstName} {course.lastName}</span>
+                  {/* Rating and Reviews */}
+                  <div className="flex items-center gap-2 mb-5">
+                    <div className="flex items-center gap-0.5">
+                      {[...Array(5)].map((_, i) => (
+                        <Star 
+                          key={i} 
+                          className={`w-4 h-4 ${i < 4 ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300 dark:text-gray-600'}`} 
+                        />
+                      ))}
                     </div>
-                    <div className="flex items-center gap-1 text-yellow-500 text-sm font-bold">
-                      <Star className="w-4 h-4 fill-current" />
-                      4.8
+                    <span className="text-sm font-bold text-gray-700 dark:text-gray-300">4.8</span>
+                    <span className="text-xs text-gray-500 dark:text-gray-500">(1,234 reviews)</span>
+                  </div>
+
+                  {/* Footer with instructor */}
+                  <div className="flex items-center justify-between pt-5 border-t border-gray-100 dark:border-gray-700 mt-auto">
+                    <div className="flex items-center gap-3">
+                      <div className="relative">
+                        <img
+                          src={course.instructorAvatar || `https://ui-avatars.com/api/?name=${course.firstName}+${course.lastName}&background=6366f1&color=fff&size=128&bold=true`}
+                          alt={course.firstName}
+                          className="w-10 h-10 rounded-full border-2 border-white dark:border-gray-700 shadow-md object-cover ring-2 ring-primary-100 dark:ring-primary-900"
+                          onError={(e) => {
+                            e.target.src = `https://ui-avatars.com/api/?name=${course.firstName}+${course.lastName}&background=6366f1&color=fff&size=128&bold=true`;
+                          }}
+                        />
+                      </div>
+                      <div>
+                        <p className="text-sm font-bold text-gray-900 dark:text-white">
+                          {course.firstName} {course.lastName}
+                        </p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">Expert Instructor</p>
+                      </div>
                     </div>
+                    <Link 
+                      to={`/courses/${course.id}`}
+                      className="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold rounded-lg transition-colors shadow-md hover:shadow-lg"
+                    >
+                      Enroll
+                    </Link>
                   </div>
                 </CardContent>
               </Card>
