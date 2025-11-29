@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ShoppingCart, Trash2, ArrowRight, BookOpen, X } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
 import { useAuth } from '../contexts/AuthContext';
@@ -10,6 +10,7 @@ import toast from 'react-hot-toast';
 export const Cart = () => {
     const { cartItems, removeFromCart, clearCart, getCartTotal } = useCart();
     const { isAuthenticated, isStudent } = useAuth();
+    const navigate = useNavigate();
 
     const handleRemoveItem = (courseId, courseTitle) => {
         removeFromCart(courseId);
@@ -32,8 +33,7 @@ export const Cart = () => {
             toast.error('Only students can checkout');
             return;
         }
-        // In a real app, this would redirect to checkout page
-        toast.success('Redirecting to checkout...');
+        navigate('/checkout');
     };
 
     if (cartItems.length === 0) {

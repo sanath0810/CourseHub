@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
-  Home, BookOpen, User, LogOut, X, GraduationCap, Menu, Moon, Sun, ShoppingCart
+  Home, BookOpen, User, LogOut, X, GraduationCap, Menu, Moon, Sun, ShoppingCart, Users
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
@@ -22,6 +22,7 @@ export const Layout = ({ children }) => {
 
   const navigation = [
     { name: 'Dashboard', href: '/dashboard', icon: Home },
+    { name: 'Mentors', href: '/mentors', icon: Users },
     { name: 'Profile', href: '/profile', icon: User },
   ];
 
