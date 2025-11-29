@@ -25,100 +25,100 @@ function App() {
       <ProgressProvider>
         <Router>
           <div className="min-h-screen bg-gray-50">
-          <Routes>
-            {/* Public routes (wrapped with Layout for navbar/sidebar) */}
-            <Route path="/" element={<Layout><Home /></Layout>} />
-            <Route path="/login" element={<Layout><Login /></Layout>} />
-            <Route path="/register" element={<Layout><Register /></Layout>} />
-            <Route path="/courses" element={<Layout><CourseCatalog /></Layout>} />
-            <Route path="/courses/:id" element={<Layout><CourseDetail /></Layout>} />
-            
-            {/* Protected routes */}
-            <Route path="/dashboard" element={
-              <ProtectedRoute>
-                <Layout>
-                  <Dashboard />
-                </Layout>
-              </ProtectedRoute>
-            } />
-            
-            <Route path="/profile" element={
-              <ProtectedRoute>
-                <Layout>
-                  <Profile />
-                </Layout>
-              </ProtectedRoute>
-            } />
-            
-            {/* Educator routes */}
-            <Route path="/instructor/courses" element={
-              <ProtectedRoute allowedRoles={['educator', 'admin']}>
-                <Layout>
-                  <CourseManagement />
-                </Layout>
-              </ProtectedRoute>
-            } />
-            
-            <Route path="/instructor/courses/create" element={
-              <ProtectedRoute allowedRoles={['educator', 'admin']}>
-                <Layout>
-                  <CreateCourse />
-                </Layout>
-              </ProtectedRoute>
-            } />
-            
-            <Route path="/instructor/courses/:id/edit" element={
-              <ProtectedRoute allowedRoles={['educator', 'admin']}>
-                <Layout>
-                  <EditCourse />
-                </Layout>
-              </ProtectedRoute>
-            } />
-            
-            <Route path="/instructor/courses/:id/students" element={
-              <ProtectedRoute allowedRoles={['educator', 'admin']}>
-                <Layout>
-                  <StudentManagement />
-                </Layout>
-              </ProtectedRoute>
-            } />
-            
-            <Route path="/instructor/courses/:id/assignments" element={
-              <ProtectedRoute allowedRoles={['educator', 'admin']}>
-                <Layout>
-                  <AssignmentManagement />
-                </Layout>
-              </ProtectedRoute>
-            } />
-            
-            {/* Student routes */}
-            <Route path="/course/:id/learn" element={
-              <ProtectedRoute allowedRoles={['student']}>
-                <Layout>
-                  <CourseViewer />
-                </Layout>
-              </ProtectedRoute>
-            } />
-            
-            <Route path="/assignment/:id/submit" element={
-              <ProtectedRoute allowedRoles={['student']}>
-                <Layout>
-                  <AssignmentSubmission />
-                </Layout>
-              </ProtectedRoute>
-            } />
-          </Routes>
-          
-          <Toaster
-            position="top-right"
-            toastOptions={{
-              duration: 4000,
-              style: {
-                background: '#363636',
-                color: '#fff',
-              },
-            }}
-          />
+            <Routes>
+              {/* Public routes (wrapped with Layout for navbar/sidebar) */}
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Layout><Login /></Layout>} />
+              <Route path="/register" element={<Layout><Register /></Layout>} />
+              <Route path="/courses" element={<Layout><CourseCatalog /></Layout>} />
+              <Route path="/courses/:id" element={<Layout><CourseDetail /></Layout>} />
+
+              {/* Protected routes */}
+              <Route path="/dashboard" element={
+                <ProtectedRoute>
+                  <Layout>
+                    <Dashboard />
+                  </Layout>
+                </ProtectedRoute>
+              } />
+
+              <Route path="/profile" element={
+                <ProtectedRoute>
+                  <Layout>
+                    <Profile />
+                  </Layout>
+                </ProtectedRoute>
+              } />
+
+              {/* Educator routes */}
+              <Route path="/instructor/courses" element={
+                <ProtectedRoute allowedRoles={['educator', 'admin']}>
+                  <Layout>
+                    <CourseManagement />
+                  </Layout>
+                </ProtectedRoute>
+              } />
+
+              <Route path="/instructor/courses/create" element={
+                <ProtectedRoute allowedRoles={['educator', 'admin']}>
+                  <Layout>
+                    <CreateCourse />
+                  </Layout>
+                </ProtectedRoute>
+              } />
+
+              <Route path="/instructor/courses/:id/edit" element={
+                <ProtectedRoute allowedRoles={['educator', 'admin']}>
+                  <Layout>
+                    <EditCourse />
+                  </Layout>
+                </ProtectedRoute>
+              } />
+
+              <Route path="/instructor/courses/:id/students" element={
+                <ProtectedRoute allowedRoles={['educator', 'admin']}>
+                  <Layout>
+                    <StudentManagement />
+                  </Layout>
+                </ProtectedRoute>
+              } />
+
+              <Route path="/instructor/courses/:id/assignments" element={
+                <ProtectedRoute allowedRoles={['educator', 'admin']}>
+                  <Layout>
+                    <AssignmentManagement />
+                  </Layout>
+                </ProtectedRoute>
+              } />
+
+              {/* Student routes */}
+              <Route path="/course/:id/learn" element={
+                <ProtectedRoute allowedRoles={['student']}>
+                  <Layout>
+                    <CourseViewer />
+                  </Layout>
+                </ProtectedRoute>
+              } />
+
+              <Route path="/assignment/:id/submit" element={
+                <ProtectedRoute allowedRoles={['student']}>
+                  <Layout>
+                    <AssignmentSubmission />
+                  </Layout>
+                </ProtectedRoute>
+              } />
+            </Routes>
+
+            <Toaster
+              position="top-right"
+              toastOptions={{
+                duration: 4000,
+                style: {
+                  background: '#363636',
+                  color: '#fff',
+                },
+              }}
+            />
           </div>
         </Router>
       </ProgressProvider>
