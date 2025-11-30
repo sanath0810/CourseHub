@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { 
-  Star, 
-  Clock, 
-  Users, 
-  BookOpen, 
-  Play, 
+import {
+  Star,
+  Clock,
+  Users,
+  BookOpen,
+  Play,
   CheckCircle,
   User,
   Calendar,
@@ -61,7 +61,7 @@ export const CourseDetail = () => {
     setEnrolling(true);
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 1000));
-    
+
     // Mock enrollment
     const savedEnrollments = JSON.parse(localStorage.getItem('enrollments') || '[]');
     const newEnrollment = {
@@ -72,7 +72,7 @@ export const CourseDetail = () => {
     };
     savedEnrollments.push(newEnrollment);
     localStorage.setItem('enrollments', JSON.stringify(savedEnrollments));
-    
+
     setEnrolled(true);
     toast.success('Successfully enrolled in course!');
     setEnrolling(false);
@@ -165,12 +165,12 @@ export const CourseDetail = () => {
             <span>/</span>
             <span className="text-gray-900 dark:text-white">{course.title}</span>
           </nav>
-          
+
           <div className="flex items-start justify-between">
             <div className="flex-1">
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{course.title}</h1>
               <p className="text-lg text-gray-600 dark:text-gray-400 mb-4">{course.description}</p>
-              
+
               <div className="flex items-center space-x-6 text-sm text-gray-600 dark:text-gray-400">
                 <div className="flex items-center">
                   <User className="h-4 w-4 mr-1" />
@@ -193,7 +193,7 @@ export const CourseDetail = () => {
                 </span>
               </div>
             </div>
-            
+
             <div className="ml-8">
               {course.instructorAvatar ? (
                 <img
@@ -219,7 +219,7 @@ export const CourseDetail = () => {
                 <img
                   src={course.thumbnail}
                   alt={course.title}
-                  className="w-full h-auto max-h-72 object-contain rounded-lg bg-white cursor-pointer"
+                  className="w-full h-auto max-h-72 object-contain rounded-lg bg-white dark:bg-gray-800 cursor-pointer"
                   loading="lazy"
                   onError={(e) => {
                     if (e.currentTarget.dataset.fallbacked) return;
@@ -233,30 +233,30 @@ export const CourseDetail = () => {
             {/* Course Description */}
             <Card className="mb-6">
               <CardHeader>
-                <h2 className="text-xl font-semibold text-gray-900">About this course</h2>
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">About this course</h2>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600 leading-relaxed">{course.description}</p>
+                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{course.description}</p>
               </CardContent>
             </Card>
 
             {/* Course Curriculum */}
             <Card>
               <CardHeader>
-                <h2 className="text-xl font-semibold text-gray-900">Course curriculum</h2>
-                <p className="text-sm text-gray-600">
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Course curriculum</h2>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
                   {course.modules.length} modules • {getTotalLessons()} lessons • {formatDuration(calculateTotalDuration())} total
                 </p>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   {course.modules.map((module, moduleIndex) => (
-                    <div key={module.id} className="border border-gray-200 rounded-lg">
-                      <div className="p-4 bg-gray-50 rounded-t-lg">
-                        <h3 className="font-medium text-gray-900">
+                    <div key={module.id} className="border border-gray-200 dark:border-gray-700 rounded-lg">
+                      <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-t-lg">
+                        <h3 className="font-medium text-gray-900 dark:text-white">
                           Module {moduleIndex + 1}: {module.title}
                         </h3>
-                        <p className="text-sm text-gray-600 mt-1">{module.description}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">{module.description}</p>
                       </div>
                       <div className="p-4">
                         <div className="space-y-2">
@@ -264,7 +264,7 @@ export const CourseDetail = () => {
                             <div key={lesson.id} className="flex items-center justify-between py-2">
                               <div className="flex items-center">
                                 <Play className="h-4 w-4 text-gray-400 mr-3" />
-                                <span className="text-sm text-gray-900">
+                                <span className="text-sm text-gray-900 dark:text-gray-200">
                                   {lessonIndex + 1}. {lesson.title}
                                 </span>
                                 {lesson.duration && (
@@ -292,10 +292,10 @@ export const CourseDetail = () => {
             <Card className="lg:sticky lg:top-8">
               <CardContent className="p-6">
                 <div className="text-center mb-6">
-                  <div className="text-3xl font-bold text-gray-900 mb-2">
+                  <div className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
                     {course.price === 0 ? 'Free' : `$${course.price}`}
                   </div>
-                  <p className="text-sm text-gray-600">One-time payment</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">One-time payment</p>
                 </div>
 
                 {enrolled ? (

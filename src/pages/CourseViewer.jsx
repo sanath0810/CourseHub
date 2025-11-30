@@ -295,28 +295,28 @@ export const CourseViewer = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <SEO
         title={course ? `${course.title} - Learning` : 'Course Viewer'}
         description={course ? `Learn ${course.title} with expert instruction` : 'View and learn from course content'}
         keywords={course ? `${course.title}, ${course.category}, learning, online course` : 'course viewer, learning'}
       />
       {/* Progress Bar */}
-      <div className="bg-white shadow-sm border-b">
+      <div className="bg-white dark:bg-gray-800 shadow-sm border-b dark:border-gray-700">
         <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between mb-2">
-            <h1 className="text-xl font-bold text-gray-900">{course?.title || 'Loading course...'}</h1>
-            <div className="text-sm text-gray-600">
+            <h1 className="text-xl font-bold text-gray-900 dark:text-white">{course?.title || 'Loading course...'}</h1>
+            <div className="text-sm text-gray-600 dark:text-gray-400">
               {progress.completedVideos} of {progress.totalVideos} videos completed
             </div>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-3">
+          <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
             <div
               className="bg-blue-600 h-3 rounded-full transition-all duration-300"
               style={{ width: `${progress.percentage}%` }}
             ></div>
           </div>
-          <div className="mt-2 text-sm text-gray-600">
+          <div className="mt-2 text-sm text-gray-600 dark:text-gray-400">
             Progress: {progress.percentage}% • Modules completed: {progress.completedModules}/{progress.totalModules}
           </div>
           {progress.courseCompleted && (
@@ -348,10 +348,10 @@ export const CourseViewer = () => {
                 <div className="p-6">
                   <div className="flex items-center justify-between mb-4">
                     <div>
-                      <h2 className="text-xl font-bold text-gray-900">
+                      <h2 className="text-xl font-bold text-gray-900 dark:text-white">
                         {currentLessonData?.title || (course ? 'Select a lesson' : 'Loading...')}
                       </h2>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
                         {course && currentModuleData
                           ? `Module ${currentModule + 1}: ${currentModuleData?.title} • ${formatDuration(currentLessonData?.duration || 0)}`
                           : ''}
@@ -376,12 +376,12 @@ export const CourseViewer = () => {
                       </Button>
                       <Button
                         onClick={handleVideoComplete}
-                        disabled={!course || (!videoEnded && !isVideoCompleted(courseId, currentModuleData?.id, currentLessonData?.id))}
-                        className={`bg-green-600 hover:bg-green-700 ${(!course || (!videoEnded && !isVideoCompleted(courseId, currentModuleData?.id, currentLessonData?.id))) ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        disabled={!course}
+                        className={`bg-green-600 hover:bg-green-700 ${!course ? 'opacity-50 cursor-not-allowed' : ''}`}
                       >
                         {isVideoCompleted(courseId, currentModuleData?.id, currentLessonData?.id)
                           ? 'Completed'
-                          : (videoEnded ? 'Mark as Complete' : 'Watch till end to complete')}
+                          : 'Mark as Complete'}
                       </Button>
                       <Button
                         onClick={nextLesson}
@@ -404,12 +404,12 @@ export const CourseViewer = () => {
           <div className="lg:col-span-3 ">
             <Card>
               <CardHeader>
-                <h3 className="text-lg font-semibold text-gray-900">Course Content</h3>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Course Content</h3>
               </CardHeader>
               <CardContent className="p-0">
                 <div className="max-h-[90vh] overflow-y-auto">
                   {(modules).map((module, moduleIndex) => (
-                    <div key={module.id} className="border-b border-gray-200 last:border-b-0 w-full">
+                    <div key={module.id} className="border-b border-gray-200 dark:border-gray-700 last:border-b-0 w-full">
                       <button
                         type="button"
                         onClick={() => {
@@ -418,14 +418,14 @@ export const CourseViewer = () => {
                           setCurrentModule(moduleIndex);
                           setCurrentLesson(0);
                         }}
-                        className="w-full text-left p-4 mb-2 bg-gray-200 rounded-lg hover:bg-gray-300 "
+                        className="w-full text-left p-4 mb-2 bg-gray-200 dark:bg-gray-700 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600"
                       >
                         <div className="flex items-center justify-between">
                           <div>
-                            <h4 className="font-medium text-gray-900">
+                            <h4 className="font-medium text-gray-900 dark:text-white">
                               Module {moduleIndex + 1}: {module.title}
                             </h4>
-                            <p className="text-xs text-gray-500 mt-1">
+                            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                               {module.lessons.filter(les => isVideoCompleted(courseId, module.id, les.id)).length}
                               /{module.lessons.length} completed
                             </p>
@@ -434,16 +434,16 @@ export const CourseViewer = () => {
                             <span className="text-green-600 text-sm">✓</span>
                           )}
                         </div>
-                        <p className="text-sm text-gray-600 mt-1">
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                           {module.lessons.length} videos
                         </p>
                       </button>
                       {expandedModuleIndex === moduleIndex && (
-                        <div className="divide-y divide-gray-100">
+                        <div className="divide-y divide-gray-100 dark:divide-gray-700">
                           {module.lessons.map((lesson, lessonIndex) => (
-                            <div key={lesson.id} className={`p-3 hover:bg-gray-50 transition-colors ${currentModule === moduleIndex && currentLesson === lessonIndex
-                                ? 'bg-blue-50 border-r-2 border-blue-600'
-                                : ''
+                            <div key={lesson.id} className={`p-3 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors ${currentModule === moduleIndex && currentLesson === lessonIndex
+                              ? 'bg-blue-50 dark:bg-blue-900/20 border-r-2 border-blue-600'
+                              : ''
                               }`}>
                               <div className="flex items-center justify-between">
                                 <button
@@ -451,10 +451,10 @@ export const CourseViewer = () => {
                                   className="text-left"
                                 >
                                   <div>
-                                    <p className="text-sm font-medium text-gray-900">
+                                    <p className="text-sm font-medium text-gray-900 dark:text-gray-200">
                                       {lesson.title}
                                     </p>
-                                    <p className="text-xs text-gray-500">
+                                    <p className="text-xs text-gray-500 dark:text-gray-400">
                                       {formatDuration(lesson.duration)}
                                     </p>
                                   </div>
@@ -468,11 +468,11 @@ export const CourseViewer = () => {
                             </div>
                           ))}
                           {/* Module feedback: simple 1-5 star rating persisted to localStorage */}
-                          <div className="p-4 bg-gray-50">
+                          <div className="p-4 bg-gray-50 dark:bg-gray-800">
                             <div className="flex items-center justify-between">
                               <div>
-                                <h4 className="text-sm font-medium text-gray-900">Rate this module</h4>
-                                <p className="text-xs text-gray-500">Share feedback to help improve the course</p>
+                                <h4 className="text-sm font-medium text-gray-900 dark:text-white">Rate this module</h4>
+                                <p className="text-xs text-gray-500 dark:text-gray-400">Share feedback to help improve the course</p>
                               </div>
                               <div className="flex items-center gap-1">
                                 {Array.from({ length: 5 }).map((_, i) => {
@@ -493,7 +493,7 @@ export const CourseViewer = () => {
                               </div>
                             </div>
                             {moduleRatings[module.id] && (
-                              <div className="mt-2 text-sm text-gray-600">Your rating: {moduleRatings[module.id]} / 5</div>
+                              <div className="mt-2 text-sm text-gray-600 dark:text-gray-400">Your rating: {moduleRatings[module.id]} / 5</div>
                             )}
                           </div>
                         </div>
