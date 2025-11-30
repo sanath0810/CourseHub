@@ -248,7 +248,7 @@ export const Login = () => {
                   disabled={loading || googleLoading}
                   className="flex items-center justify-center py-3 px-4 border border-gray-300 rounded-xl shadow-sm bg-white text-sm font-bold text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
-                  Demo Teacher
+                  Teacher
                 </button>
                 <button
                   type="button"
@@ -256,7 +256,7 @@ export const Login = () => {
                   disabled={loading || googleLoading}
                   className="flex items-center justify-center py-3 px-4 border border-gray-300 rounded-xl shadow-sm bg-white text-sm font-bold text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
-                  Demo Admin
+                  Admin
                 </button>
               </div>
             </div>
